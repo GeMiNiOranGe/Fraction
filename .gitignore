@@ -1,6 +1,6 @@
 # Bin
 *.exe
-.bin/
+.bin/*
 
 # App config
 .vscode/
