@@ -1,4 +1,4 @@
-#include "Fraction.h"
+#include "fraction.hpp"
 
 int main() {
     Fraction first, second, third(1, 2), fourth(3, 4);
@@ -15,8 +15,8 @@ int main() {
         std::cout << "Subtraction of 2 fractions is: " << first - second << '\n';
         std::cout << "Multiplication of 2 fractions is: " << first * second << '\n';
         std::cout << "Division of 2 fractions is: ";
-        Fraction phanSoThuongTam = first / second;
-        phanSoThuongTam.get_denominator() == 0
+        Fraction result = first / second;
+        result.get_denominator() == 0
             ? std::cout << "Calculation error..." << '\n'
             : std::cout << first / second << '\n';
     }
