@@ -32,135 +32,149 @@ Fraction Fraction::simplify() {
     return *this;
 }
 
-std::istream &operator>>(std::istream &_in, Fraction &_fraction) {
-    _in >> _fraction.numerator >> _fraction.denominator;
-    return _in;
+double Fraction::to_double() {
+    return static_cast<double>(this->numerator) / static_cast<double>(this->denominator);
 }
-std::ostream &operator<<(std::ostream &_out, Fraction _fraction) {
-    _fraction.denominator == 1
-        ? _out << _fraction.numerator
-        : _out << _fraction.numerator << '/' << _fraction.denominator;
-    return _out;
+Fraction to_fraction(double _number) {
+    Fraction result;
+    result.denominator = 1;
+    while (static_cast<double>(static_cast<int>(_number)) != _number) {
+        _number *= 10;
+        result.denominator *= 10;
+    }
+    result.numerator = _number;
+    return result.simplify();
+}
+
+std::istream &operator>>(std::istream &_istr, Fraction &_val) {
+    _istr >> _val.numerator >> _val.denominator;
+    return _istr;
+}
+std::ostream &operator<<(std::ostream &_ostr, Fraction _val) {
+    _val.denominator == 1
+        ? _ostr << _val.numerator
+        : _ostr << _val.numerator << '/' << _val.denominator;
+    return _ostr;
 }
 
 #pragma region Fraction vs Fraction
-Fraction operator+(Fraction _first, Fraction _second) {
-    int numerator = _first.numerator * _second.denominator + _first.denominator * _second.numerator;
-    int denominator = _first.denominator * _second.denominator;
+Fraction operator+(Fraction _left, Fraction _right) {
+    int numerator = _left.numerator * _right.denominator + _left.denominator * _right.numerator;
+    int denominator = _left.denominator * _right.denominator;
     return Fraction(numerator, denominator).simplify();
 }
-Fraction operator-(Fraction _first, Fraction _second) {
-    int numerator = _first.numerator * _second.denominator - _first.denominator * _second.numerator;
-    int denominator = _first.denominator * _second.denominator;
+Fraction operator-(Fraction _left, Fraction _right) {
+    int numerator = _left.numerator * _right.denominator - _left.denominator * _right.numerator;
+    int denominator = _left.denominator * _right.denominator;
     return Fraction(numerator, denominator).simplify();
 }
-Fraction operator*(Fraction _first, Fraction _second) {
-    int numerator = _first.numerator * _second.numerator;
-    int denominator = _first.denominator * _second.denominator;
+Fraction operator*(Fraction _left, Fraction _right) {
+    int numerator = _left.numerator * _right.numerator;
+    int denominator = _left.denominator * _right.denominator;
     return Fraction(numerator, denominator).simplify();
 }
-Fraction operator/(Fraction _first, Fraction _second) {
-    return (_first * _second.inverse()).simplify();
+Fraction operator/(Fraction _left, Fraction _right) {
+    return (_left * _right.inverse()).simplify();
 }
 
-Fraction &operator+=(Fraction &_first, Fraction _second) {
-    _first = _first + _second;
-    return _first;
+Fraction &operator+=(Fraction &_left, Fraction _right) {
+    _left = _left + _right;
+    return _left;
 }
-Fraction &operator-=(Fraction &_first, Fraction _second) {
-    _first = _first - _second;
-    return _first;
+Fraction &operator-=(Fraction &_left, Fraction _right) {
+    _left = _left - _right;
+    return _left;
 }
-Fraction &operator*=(Fraction &_first, Fraction _second) {
-    _first = _first * _second;
-    return _first;
+Fraction &operator*=(Fraction &_left, Fraction _right) {
+    _left = _left * _right;
+    return _left;
 }
-Fraction &operator/=(Fraction &_first, Fraction _second) {
-    _first = _first / _second;
-    return _first;
+Fraction &operator/=(Fraction &_left, Fraction _right) {
+    _left = _left / _right;
+    return _left;
 }
 
-bool operator>(Fraction _first, Fraction _second) {
-    int left_side = _first.numerator * _second.denominator;
-    int right_side = _first.denominator * _second.numerator;
+bool operator>(Fraction _left, Fraction _right) {
+    int left_side = _left.numerator * _right.denominator;
+    int right_side = _left.denominator * _right.numerator;
     return left_side > right_side;
 }
-bool operator<(Fraction _first, Fraction _second) {
-    int left_side = _first.numerator * _second.denominator;
-    int right_side = _first.denominator * _second.numerator;
+bool operator<(Fraction _left, Fraction _right) {
+    int left_side = _left.numerator * _right.denominator;
+    int right_side = _left.denominator * _right.numerator;
     return left_side < right_side;
 }
-bool operator==(Fraction _first, Fraction _second) {
-    int left_side = _first.numerator * _second.denominator;
-    int right_side = _first.denominator * _second.numerator;
+bool operator==(Fraction _left, Fraction _right) {
+    int left_side = _left.numerator * _right.denominator;
+    int right_side = _left.denominator * _right.numerator;
     return left_side == right_side;
 }
-bool operator>=(Fraction _first, Fraction _second) {
-    int left_side = _first.numerator * _second.denominator;
-    int right_side = _first.denominator * _second.numerator;
+bool operator>=(Fraction _left, Fraction _right) {
+    int left_side = _left.numerator * _right.denominator;
+    int right_side = _left.denominator * _right.numerator;
     return left_side >= right_side;
 }
-bool operator<=(Fraction _first, Fraction _second) {
-    int left_side = _first.numerator * _second.denominator;
-    int right_side = _first.denominator * _second.numerator;
+bool operator<=(Fraction _left, Fraction _right) {
+    int left_side = _left.numerator * _right.denominator;
+    int right_side = _left.denominator * _right.numerator;
     return left_side <= right_side;
 }
-bool operator!=(Fraction _first, Fraction _second) {
-    return !(_first == _second);
+bool operator!=(Fraction _left, Fraction _right) {
+    return !(_left == _right);
 }
 #pragma endregion
 
 #pragma region Fraction vs Number
-Fraction operator+(Fraction _fraction, int _number) {
-    int numerator = _fraction.numerator + _fraction.denominator * _number;
-    return Fraction(numerator, _fraction.denominator).simplify();
+Fraction operator+(Fraction _left, int _right) {
+    int numerator = _left.numerator + _left.denominator * _right;
+    return Fraction(numerator, _left.denominator).simplify();
 }
-Fraction operator-(Fraction _fraction, int _number) {
-    int numerator = _fraction.numerator - _fraction.denominator * _number;
-    return Fraction(numerator, _fraction.denominator).simplify();
+Fraction operator-(Fraction _left, int _right) {
+    int numerator = _left.numerator - _left.denominator * _right;
+    return Fraction(numerator, _left.denominator).simplify();
 }
-Fraction operator*(Fraction _fraction, int _number) {
-    int numerator = _fraction.numerator * _number;
-    return Fraction(numerator, _fraction.denominator).simplify();
+Fraction operator*(Fraction _left, int _right) {
+    int numerator = _left.numerator * _right;
+    return Fraction(numerator, _left.denominator).simplify();
 }
-Fraction operator/(Fraction _fraction, int _number) {
-    int denominator = _fraction.denominator * _number;
-    return Fraction(_fraction.numerator, denominator).simplify();
-}
-
-Fraction &operator+=(Fraction &_fraction, int _number) {
-    _fraction = _fraction + _number;
-    return _fraction;
-}
-Fraction &operator-=(Fraction &_fraction, int _number) {
-    _fraction = _fraction - _number;
-    return _fraction;
-}
-Fraction &operator*=(Fraction &_fraction, int _number) {
-    _fraction = _fraction * _number;
-    return _fraction;
-}
-Fraction &operator/=(Fraction &_fraction, int _number) {
-    _fraction = _fraction / _number;
-    return _fraction;
+Fraction operator/(Fraction _left, int _right) {
+    int denominator = _left.denominator * _right;
+    return Fraction(_left.numerator, denominator).simplify();
 }
 
-bool operator>(Fraction _fraction, int _number) {
-    return _fraction.numerator > (_fraction.denominator * _number);
+Fraction &operator+=(Fraction &_left, int _right) {
+    _left = _left + _right;
+    return _left;
 }
-bool operator<(Fraction _fraction, int _number) {
-    return _fraction.numerator < (_fraction.denominator * _number);
+Fraction &operator-=(Fraction &_left, int _right) {
+    _left = _left - _right;
+    return _left;
 }
-bool operator==(Fraction _fraction, int _number) {
-    return _fraction.numerator == (_fraction.denominator * _number);
+Fraction &operator*=(Fraction &_left, int _right) {
+    _left = _left * _right;
+    return _left;
 }
-bool operator>=(Fraction _fraction, int _number) {
-    return _fraction.numerator >= (_fraction.denominator * _number);
+Fraction &operator/=(Fraction &_left, int _right) {
+    _left = _left / _right;
+    return _left;
 }
-bool operator<=(Fraction _fraction, int _number) {
-    return _fraction.numerator <= (_fraction.denominator * _number);
+
+bool operator>(Fraction _left, int _right) {
+    return _left.numerator > (_left.denominator * _right);
 }
-bool operator!=(Fraction _fraction, int _number) {
-    return !(_fraction == _number);
+bool operator<(Fraction _left, int _right) {
+    return _left.numerator < (_left.denominator * _right);
+}
+bool operator==(Fraction _left, int _right) {
+    return _left.numerator == (_left.denominator * _right);
+}
+bool operator>=(Fraction _left, int _right) {
+    return _left.numerator >= (_left.denominator * _right);
+}
+bool operator<=(Fraction _left, int _right) {
+    return _left.numerator <= (_left.denominator * _right);
+}
+bool operator!=(Fraction _left, int _right) {
+    return !(_left == _right);
 }
 #pragma endregion

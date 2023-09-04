@@ -10,50 +10,54 @@ private:
     int numerator, denominator;
 
 public:
-    Fraction(int = 0, int = 1);
+    Fraction(int _numerator = 0, int _denominator = 1);
     ~Fraction();
 
     int get_numerator();
     int get_denominator();
 
-    void set_numerator(int);
-    void set_denominator(int);
+    void set_numerator(int _numerator);
+    void set_denominator(int _denominator);
 
     Fraction inverse();
     Fraction simplify();
 
-    friend std::istream &operator>>(std::istream &, Fraction &);
-    friend std::ostream &operator<<(std::ostream &, Fraction);
+    double to_double();
+    friend Fraction to_fraction(double _number);
 
-    friend Fraction operator+(Fraction, Fraction);
-    friend Fraction operator-(Fraction, Fraction);
-    friend Fraction operator*(Fraction, Fraction);
-    friend Fraction operator/(Fraction, Fraction);
-    friend Fraction &operator+=(Fraction &, Fraction);
-    friend Fraction &operator-=(Fraction &, Fraction);
-    friend Fraction &operator*=(Fraction &, Fraction);
-    friend Fraction &operator/=(Fraction &, Fraction);
-    friend bool operator>(Fraction, Fraction);
-    friend bool operator<(Fraction, Fraction);
-    friend bool operator==(Fraction, Fraction);
-    friend bool operator>=(Fraction, Fraction);
-    friend bool operator<=(Fraction, Fraction);
-    friend bool operator!=(Fraction, Fraction);
+    friend std::istream &operator>>(std::istream &_istr, Fraction &_val);
+    friend std::ostream &operator<<(std::ostream &_ostr, Fraction _val);
 
-    friend Fraction operator+(Fraction, int);
-    friend Fraction operator-(Fraction, int);
-    friend Fraction operator*(Fraction, int);
-    friend Fraction operator/(Fraction, int);
-    friend Fraction &operator+=(Fraction &, int);
-    friend Fraction &operator-=(Fraction &, int);
-    friend Fraction &operator*=(Fraction &, int);
-    friend Fraction &operator/=(Fraction &, int);
-    friend bool operator>(Fraction, int);
-    friend bool operator<(Fraction, int);
-    friend bool operator==(Fraction, int);
-    friend bool operator>=(Fraction, int);
-    friend bool operator<=(Fraction, int);
-    friend bool operator!=(Fraction, int);
+    friend Fraction operator+(Fraction _left, Fraction _right);
+    friend Fraction operator-(Fraction _left, Fraction _right);
+    friend Fraction operator*(Fraction _left, Fraction _right);
+    friend Fraction operator/(Fraction _left, Fraction _right);
+    friend Fraction &operator+=(Fraction &_left, Fraction _right);
+    friend Fraction &operator-=(Fraction &_left, Fraction _right);
+    friend Fraction &operator*=(Fraction &_left, Fraction _right);
+    friend Fraction &operator/=(Fraction &_left, Fraction _right);
+    friend bool operator>(Fraction _left, Fraction _right);
+    friend bool operator<(Fraction _left, Fraction _right);
+    friend bool operator==(Fraction _left, Fraction _right);
+    friend bool operator>=(Fraction _left, Fraction _right);
+    friend bool operator<=(Fraction _left, Fraction _right);
+    friend bool operator!=(Fraction _left, Fraction _right);
+
+    friend Fraction operator+(Fraction _left, int _right);
+    friend Fraction operator-(Fraction _left, int _right);
+    friend Fraction operator*(Fraction _left, int _right);
+    friend Fraction operator/(Fraction _left, int _right);
+    friend Fraction &operator+=(Fraction &_left, int _right);
+    friend Fraction &operator-=(Fraction &_left, int _right);
+    friend Fraction &operator*=(Fraction &_left, int _right);
+    friend Fraction &operator/=(Fraction &_left, int _right);
+    friend bool operator>(Fraction _left, int _right);
+    friend bool operator<(Fraction _left, int _right);
+    friend bool operator==(Fraction _left, int _right);
+    friend bool operator>=(Fraction _left, int _right);
+    friend bool operator<=(Fraction _left, int _right);
+    friend bool operator!=(Fraction _left, int _right);
 };
+Fraction to_fraction(double _number);
 
 #endif // end FRACTION_HPP
