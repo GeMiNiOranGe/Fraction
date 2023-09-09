@@ -11,6 +11,8 @@ private:
 
 public:
     Fraction(int _numerator = 0, int _denominator = 1);
+    Fraction(const Fraction &_fraction);
+    Fraction(Fraction &&_fraction);
     ~Fraction();
 
     int get_numerator();
@@ -24,6 +26,9 @@ public:
 
     double to_double();
     friend Fraction to_fraction(double _number);
+
+    Fraction &operator=(const Fraction &) = default;
+    Fraction &operator=(Fraction &&) = default;
 
     friend std::istream &operator>>(std::istream &_istr, Fraction &_val);
     friend std::ostream &operator<<(std::ostream &_ostr, Fraction _val);

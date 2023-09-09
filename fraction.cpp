@@ -4,6 +4,15 @@ Fraction::Fraction(int _numerator, int _denominator) {
     this->numerator = _numerator;
     this->denominator = _denominator;
 }
+Fraction::Fraction(const Fraction &_fraction) {
+    this->numerator = _fraction.numerator;
+    this->denominator = _fraction.denominator;
+}
+Fraction::Fraction(Fraction &&_fraction) {
+    this->numerator = _fraction.numerator;
+    this->denominator = _fraction.denominator;
+    _fraction = Fraction();
+}
 Fraction::~Fraction() {
 }
 
@@ -42,7 +51,7 @@ Fraction to_fraction(double _number) {
         _number *= 10;
         result.denominator *= 10;
     }
-    result.numerator = _number;
+    result.numerator = static_cast<int>(_number);
     return result.simplify();
 }
 
