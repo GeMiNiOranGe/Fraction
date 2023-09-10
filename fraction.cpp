@@ -16,17 +16,17 @@ Fraction::Fraction(Fraction &&_fraction) {
 Fraction::~Fraction() {
 }
 
-int Fraction::get_numerator() {
+const int &Fraction::get_numerator() const {
     return this->numerator;
 }
-int Fraction::get_denominator() {
+const int &Fraction::get_denominator() const {
     return this->denominator;
 }
 
-void Fraction::set_numerator(int _numerator) {
+void Fraction::set_numerator(const int &_numerator) {
     this->numerator = _numerator;
 }
-void Fraction::set_denominator(int _denominator) {
+void Fraction::set_denominator(const int &_denominator) {
     this->denominator = _denominator;
 }
 

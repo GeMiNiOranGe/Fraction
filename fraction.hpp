@@ -15,11 +15,11 @@ public:
     Fraction(Fraction &&_fraction);
     ~Fraction();
 
-    int get_numerator();
-    int get_denominator();
+    const int &get_numerator() const;
+    const int &get_denominator() const;
 
-    void set_numerator(int _numerator);
-    void set_denominator(int _denominator);
+    void set_numerator(const int &_numerator);
+    void set_denominator(const int &_denominator);
 
     Fraction inverse();
     Fraction simplify();
