@@ -42,17 +42,7 @@ Fraction Fraction::simplify() {
 }
 
 double Fraction::to_double() {
-    return static_cast<double>(this->numerator) / static_cast<double>(this->denominator);
-}
-Fraction to_fraction(double _number) {
-    Fraction result;
-    result.denominator = 1;
-    while (static_cast<double>(static_cast<int>(_number)) != _number) {
-        _number *= 10;
-        result.denominator *= 10;
-    }
-    result.numerator = static_cast<int>(_number);
-    return result.simplify();
+    return static_cast<double>(this->numerator) / this->denominator;
 }
 
 std::istream &operator>>(std::istream &_istr, Fraction &_val) {
@@ -115,3 +105,12 @@ Fraction &operator/=(Fraction &_left, const int &_right) {
     return _left;
 }
 #pragma endregion
+
+Fraction to_fraction(double _number) {
+    int new_denominator = 1;
+    while (static_cast<double>(static_cast<int>(_number)) != _number) {
+        _number *= 10;
+        new_denominator *= 10;
+    }
+    return Fraction(static_cast<int>(_number), new_denominator).simplify();
+}
