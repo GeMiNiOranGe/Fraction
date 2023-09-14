@@ -9,9 +9,8 @@ Fraction::Fraction(const Fraction &_fraction) {
     this->denominator = _fraction.denominator;
 }
 Fraction::Fraction(Fraction &&_fraction) {
-    this->numerator = _fraction.numerator;
-    this->denominator = _fraction.denominator;
-    _fraction = Fraction();
+    this->numerator = std::exchange(_fraction.numerator, 0);
+    this->denominator = std::exchange(_fraction.denominator, 1);
 }
 Fraction::~Fraction() {
 }

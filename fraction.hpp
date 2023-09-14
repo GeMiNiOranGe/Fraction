@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <numeric> // C++17 to use gcd
+#include <utility>
 
 class Fraction {
 private:
@@ -28,44 +29,25 @@ public:
     friend Fraction to_fraction(double _number);
 
     Fraction &operator=(const Fraction &) = default;
-    Fraction &operator=(Fraction &&) = default;
+    Fraction &operator=(Fraction &&_fraction) {
+        if (this != &_fraction) {
+            this->numerator = std::exchange(_fraction.numerator, 0);
+            this->denominator = std::exchange(_fraction.denominator, 1);
+        }
+        return *this;
+    }
 
     friend std::istream &operator>>(std::istream &_istr, Fraction &_val);
     friend std::ostream &operator<<(std::ostream &_ostr, Fraction _val);
-
-    friend Fraction &operator+=(Fraction &_left, const Fraction &_right);
-    friend Fraction &operator-=(Fraction &_left, const Fraction &_right);
-    friend Fraction &operator*=(Fraction &_left, const Fraction &_right);
-    friend Fraction &operator/=(Fraction &_left, const Fraction &_right);
-    friend Fraction operator+(Fraction _left, const Fraction &_right);
-    friend Fraction operator-(Fraction _left, const Fraction &_right);
-    friend Fraction operator*(Fraction _left, const Fraction &_right);
-    friend Fraction operator/(Fraction _left, const Fraction &_right);
-    friend bool operator<(const Fraction &_left, const Fraction &_right);
-    friend bool operator>(const Fraction &_left, const Fraction &_right);
-    friend bool operator<=(const Fraction &_left, const Fraction &_right);
-    friend bool operator>=(const Fraction &_left, const Fraction &_right);
-    friend bool operator==(const Fraction &_left, const Fraction &_right);
-    friend bool operator!=(const Fraction &_left, const Fraction &_right);
-
-    friend Fraction &operator+=(Fraction &_left, const int &_right);
-    friend Fraction &operator-=(Fraction &_left, const int &_right);
-    friend Fraction &operator*=(Fraction &_left, const int &_right);
-    friend Fraction &operator/=(Fraction &_left, const int &_right);
-    friend Fraction operator+(Fraction _left, const int &_right);
-    friend Fraction operator-(Fraction _left, const int &_right);
-    friend Fraction operator*(Fraction _left, const int &_right);
-    friend Fraction operator/(Fraction _left, const int &_right);
-    friend bool operator<(const Fraction &_left, const int &_right);
-    friend bool operator>(const Fraction &_left, const int &_right);
-    friend bool operator<=(const Fraction &_left, const int &_right);
-    friend bool operator>=(const Fraction &_left, const int &_right);
-    friend bool operator==(const Fraction &_left, const int &_right);
-    friend bool operator!=(const Fraction &_left, const int &_right);
 };
 Fraction to_fraction(double _number);
 
 #pragma region Fraction vs Fraction
+Fraction &operator+=(Fraction &_left, const Fraction &_right);
+Fraction &operator-=(Fraction &_left, const Fraction &_right);
+Fraction &operator*=(Fraction &_left, const Fraction &_right);
+Fraction &operator/=(Fraction &_left, const Fraction &_right);
+
 inline Fraction operator+(Fraction _left, const Fraction &_right) {
     _left += _right;
     return _left;
@@ -108,6 +90,11 @@ inline bool operator!=(const Fraction &_left, const Fraction &_right) {
 #pragma endregion
 
 #pragma region Fraction vs Number
+Fraction &operator+=(Fraction &_left, const int &_right);
+Fraction &operator-=(Fraction &_left, const int &_right);
+Fraction &operator*=(Fraction &_left, const int &_right);
+Fraction &operator/=(Fraction &_left, const int &_right);
+
 inline Fraction operator+(Fraction _left, const int &_right) {
     _left += _right;
     return _left;
