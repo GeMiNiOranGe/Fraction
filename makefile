@@ -11,6 +11,7 @@
 # Compiler
 CXX          := g++
 DEBUG        := -g
+CXX_VERSION  := --std=c++17
 
 TARGET	     := program.exe
 BIN_DIR	     := bin
@@ -19,7 +20,7 @@ BIN_DIR	     := bin
 #     YOU CAN EDIT IF YOU KNOW WHAT YOU'RE DOING     #
 #====================================================#
 # Flags
-CXXFLAGS     := -c -Wall $(DEBUG)
+CXXFLAGS     := -c -Wall $(DEBUG) $(CXX_VERSION)
 LDFLAGS      :=
 
 HEADERS	     := $(wildcard *.hpp)

@@ -22,20 +22,12 @@ public:
     void set_numerator(const int &_numerator);
     void set_denominator(const int &_denominator);
 
+    double to_double();
     Fraction inverse();
     Fraction simplify();
 
-    double to_double();
-    friend Fraction to_fraction(double _number);
-
     Fraction &operator=(const Fraction &) = default;
-    Fraction &operator=(Fraction &&_fraction) {
-        if (this != &_fraction) {
-            this->numerator = std::exchange(_fraction.numerator, 0);
-            this->denominator = std::exchange(_fraction.denominator, 1);
-        }
-        return *this;
-    }
+    Fraction &operator=(Fraction &&_fraction);
 
     friend std::istream &operator>>(std::istream &_istr, Fraction &_val);
     friend std::ostream &operator<<(std::ostream &_ostr, Fraction _val);
@@ -48,21 +40,25 @@ Fraction &operator-=(Fraction &_left, const Fraction &_right);
 Fraction &operator*=(Fraction &_left, const Fraction &_right);
 Fraction &operator/=(Fraction &_left, const Fraction &_right);
 
-inline Fraction operator+(Fraction _left, const Fraction &_right) {
-    _left += _right;
-    return _left;
+inline Fraction operator+(const Fraction &_left, const Fraction &_right) {
+    Fraction result = _left;
+    result += _right;
+    return result;
 }
-inline Fraction operator-(Fraction _left, const Fraction &_right) {
-    _left -= _right;
-    return _left;
+inline Fraction operator-(const Fraction &_left, const Fraction &_right) {
+    Fraction result = _left;
+    result -= _right;
+    return result;
 }
-inline Fraction operator*(Fraction _left, const Fraction &_right) {
-    _left *= _right;
-    return _left;
+inline Fraction operator*(const Fraction &_left, const Fraction &_right) {
+    Fraction result = _left;
+    result *= _right;
+    return result;
 }
-inline Fraction operator/(Fraction _left, const Fraction &_right) {
-    _left /= _right;
-    return _left;
+inline Fraction operator/(const Fraction &_left, const Fraction &_right) {
+    Fraction result = _left;
+    result /= _right;
+    return result;
 }
 
 inline bool operator<(const Fraction &_left, const Fraction &_right) {

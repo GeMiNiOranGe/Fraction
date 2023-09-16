@@ -29,19 +29,28 @@ void Fraction::set_denominator(const int &_denominator) {
     this->denominator = _denominator;
 }
 
+double Fraction::to_double() {
+    return static_cast<double>(this->numerator) / this->denominator;
+}
 Fraction Fraction::inverse() {
     std::swap(this->denominator, this->numerator);
     return *this;
 }
 Fraction Fraction::simplify() {
-    int temp = std::gcd(this->numerator, this->denominator);
-    this->numerator /= temp;
-    this->denominator /= temp;
+    int _gcd = std::gcd(this->numerator, this->denominator);
+    if (_gcd > 1) {
+        this->numerator /= _gcd;
+        this->denominator /= _gcd;
+    }
     return *this;
 }
 
-double Fraction::to_double() {
-    return static_cast<double>(this->numerator) / this->denominator;
+Fraction &Fraction::operator=(Fraction &&_fraction) {
+    if (this == &_fraction)
+        return *this;
+    this->numerator = std::exchange(_fraction.numerator, 0);
+    this->denominator = std::exchange(_fraction.denominator, 1);
+    return *this;
 }
 
 std::istream &operator>>(std::istream &_istr, Fraction &_val) {
@@ -55,16 +64,33 @@ std::ostream &operator<<(std::ostream &_ostr, Fraction _val) {
     return _ostr;
 }
 
+Fraction to_fraction(double _number) {
+    int new_denominator = 1;
+    while (static_cast<double>(static_cast<int>(_number)) != _number) {
+        _number *= 10;
+        new_denominator *= 10;
+    }
+    return Fraction(static_cast<int>(_number), new_denominator).simplify();
+}
+
 #pragma region Fraction vs Fraction
 Fraction &operator+=(Fraction &_left, const Fraction &_right) {
-    _left.set_numerator(_left.get_numerator() * _right.get_denominator() + _left.get_denominator() * _right.get_numerator());
-    _left.set_denominator(_left.get_denominator() * _right.get_denominator());
+    if (_left.get_denominator() == _right.get_denominator())
+        _left.set_numerator(_left.get_numerator() + _right.get_numerator());
+    else {
+        _left.set_numerator(_left.get_numerator() * _right.get_denominator() + _left.get_denominator() * _right.get_numerator());
+        _left.set_denominator(_left.get_denominator() * _right.get_denominator());
+    }
     _left.simplify();
     return _left;
 }
 Fraction &operator-=(Fraction &_left, const Fraction &_right) {
-    _left.set_numerator(_left.get_numerator() * _right.get_denominator() - _left.get_denominator() * _right.get_numerator());
-    _left.set_denominator(_left.get_denominator() * _right.get_denominator());
+    if (_left.get_denominator() == _right.get_denominator())
+        _left.set_numerator(_left.get_numerator() - _right.get_numerator());
+    else {
+        _left.set_numerator(_left.get_numerator() * _right.get_denominator() - _left.get_denominator() * _right.get_numerator());
+        _left.set_denominator(_left.get_denominator() * _right.get_denominator());
+    }
     _left.simplify();
     return _left;
 }
@@ -104,12 +130,3 @@ Fraction &operator/=(Fraction &_left, const int &_right) {
     return _left;
 }
 #pragma endregion
-
-Fraction to_fraction(double _number) {
-    int new_denominator = 1;
-    while (static_cast<double>(static_cast<int>(_number)) != _number) {
-        _number *= 10;
-        new_denominator *= 10;
-    }
-    return Fraction(static_cast<int>(_number), new_denominator).simplify();
-}
