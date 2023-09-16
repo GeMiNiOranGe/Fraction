@@ -22,9 +22,11 @@ public:
     void set_numerator(const int &_numerator);
     void set_denominator(const int &_denominator);
 
-    double to_double();
+    double to_double() const;
     Fraction inverse();
     Fraction simplify();
+
+    operator double() const;
 
     Fraction &operator=(const Fraction &) = default;
     Fraction &operator=(Fraction &&_fraction);

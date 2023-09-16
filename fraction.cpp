@@ -29,7 +29,7 @@ void Fraction::set_denominator(const int &_denominator) {
     this->denominator = _denominator;
 }
 
-double Fraction::to_double() {
+double Fraction::to_double() const {
     return static_cast<double>(this->numerator) / this->denominator;
 }
 Fraction Fraction::inverse() {
@@ -43,6 +43,10 @@ Fraction Fraction::simplify() {
         this->denominator /= _gcd;
     }
     return *this;
+}
+
+Fraction::operator double() const {
+	return this->to_double();
 }
 
 Fraction &Fraction::operator=(Fraction &&_fraction) {
