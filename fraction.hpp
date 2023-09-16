@@ -30,11 +30,11 @@ public:
 
     Fraction &operator=(const Fraction &) = default;
     Fraction &operator=(Fraction &&_fraction);
-
-    friend std::istream &operator>>(std::istream &_istr, Fraction &_val);
-    friend std::ostream &operator<<(std::ostream &_ostr, Fraction _val);
 };
 Fraction to_fraction(double _number);
+
+std::istream &operator>>(std::istream &_istr, Fraction &_val);
+std::ostream &operator<<(std::ostream &_ostr, const Fraction &_val);
 
 #pragma region Fraction vs Fraction
 Fraction &operator+=(Fraction &_left, const Fraction &_right);

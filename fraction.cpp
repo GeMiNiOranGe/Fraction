@@ -46,7 +46,7 @@ Fraction Fraction::simplify() {
 }
 
 Fraction::operator double() const {
-	return this->to_double();
+    return this->to_double();
 }
 
 Fraction &Fraction::operator=(Fraction &&_fraction) {
@@ -58,13 +58,15 @@ Fraction &Fraction::operator=(Fraction &&_fraction) {
 }
 
 std::istream &operator>>(std::istream &_istr, Fraction &_val) {
-    _istr >> _val.numerator >> _val.denominator;
+    int _numerator, _denominator;
+    _istr >> _numerator >> _denominator;
+    _val = {_numerator, _denominator};
     return _istr;
 }
-std::ostream &operator<<(std::ostream &_ostr, Fraction _val) {
-    _val.denominator == 1
-        ? _ostr << _val.numerator
-        : _ostr << _val.numerator << '/' << _val.denominator;
+std::ostream &operator<<(std::ostream &_ostr, const Fraction &_val) {
+    _val.get_denominator() == 1
+        ? _ostr << _val.get_numerator()
+        : _ostr << _val.get_numerator() << '/' << _val.get_denominator();
     return _ostr;
 }
 
