@@ -63,23 +63,31 @@ inline Fraction operator/(const Fraction &_left, const Fraction &_right) {
     return result;
 }
 
-inline bool operator<(const Fraction &_left, const Fraction &_right) {
+inline auto operator<=>(const Fraction &_left, const Fraction &_right) {
     int left_side = _left.get_numerator() * _right.get_denominator();
-    int right_side = _left.get_denominator() * _right.get_numerator();
-    return left_side < right_side;
+    int right_side = _right.get_numerator() * _left.get_denominator();
+
+    if (left_side < right_side)
+        return std::strong_ordering::less;
+    if (left_side > right_side)
+        return std::strong_ordering::greater;
+    return std::strong_ordering::equal;
+}
+inline bool operator<(const Fraction &_left, const Fraction &_right) {
+    return _left <=> _right == std::strong_ordering::less;
 }
 inline bool operator>(const Fraction &_left, const Fraction &_right) {
-    return operator<(_right, _left);
+    return _left <=> _right == std::strong_ordering::greater;
 }
 inline bool operator<=(const Fraction &_left, const Fraction &_right) {
-    return !operator>(_left, _right);
+    return _left <=> _right != std::strong_ordering::greater;
 }
 inline bool operator>=(const Fraction &_left, const Fraction &_right) {
-    return !operator<(_left, _right);
+    return _left <=> _right != std::strong_ordering::less;
 }
 inline bool operator==(const Fraction &_left, const Fraction &_right) {
     int left_side = _left.get_numerator() * _right.get_denominator();
-    int right_side = _left.get_denominator() * _right.get_numerator();
+    int right_side = _right.get_numerator() * _left.get_denominator();
     return left_side == right_side;
 }
 inline bool operator!=(const Fraction &_left, const Fraction &_right) {
@@ -110,20 +118,32 @@ inline Fraction operator/(Fraction _left, const int &_right) {
     return _left;
 }
 
+inline auto operator<=>(const Fraction &_left, const int &_right) {
+    int left_side = _left.get_numerator();
+    int right_side = _right * _left.get_denominator();
+
+    if (left_side < right_side)
+        return std::strong_ordering::less;
+    if (left_side > right_side)
+        return std::strong_ordering::greater;
+    return std::strong_ordering::equal;
+}
 inline bool operator<(const Fraction &_left, const int &_right) {
-    return _left.get_numerator() < (_left.get_denominator() * _right);
+    return _left <=> _right == std::strong_ordering::less;
 }
 inline bool operator>(const Fraction &_left, const int &_right) {
-    return operator<(_right, _left);
+    return _left <=> _right == std::strong_ordering::greater;
 }
 inline bool operator<=(const Fraction &_left, const int &_right) {
-    return !operator>(_left, _right);
+    return _left <=> _right != std::strong_ordering::greater;
 }
 inline bool operator>=(const Fraction &_left, const int &_right) {
-    return !operator<(_left, _right);
+    return _left <=> _right != std::strong_ordering::less;
 }
 inline bool operator==(const Fraction &_left, const int &_right) {
-    return _left.get_numerator() == (_left.get_denominator() * _right);
+    int left_side = _left.get_numerator();
+    int right_side = _right * _left.get_denominator();
+    return left_side == right_side;
 }
 inline bool operator!=(const Fraction &_left, const int &_right) {
     return !operator==(_left, _right);

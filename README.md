@@ -1,21 +1,26 @@
 <p align="center">
   <a href="https://code.visualstudio.com/">
-    <img alt="Editor" src="https://img.shields.io/badge/Editor-VSCode-0066bb">
+    <img alt="Editor" src="https://img.shields.io/badge/Editor-VSCode-007acc">
   </a>
   <a href="https://www.msys2.org/">
     <img alt="Compiler" src="https://img.shields.io/badge/Compiler-Mingw64_of_MSYS2-7F00FF">
+  </a>
+  <a href="https://en.cppreference.com/w/cpp/20">
+    <img alt="Static Badge" src="https://img.shields.io/badge/C%2B%2B-20-00599c">
   </a>
 </p>
 
 # Fraction
 This library supports the calculation of a fraction
 
+**NOTE:** Fraction supports from `C++20` to latest
+
 ## What can the fraction class do
 The fraction class is overloaded with the following operators
 - Move/Copy-assignment operator
-- Bitshift operators (used for Stream I/O)
-- Comparison operators (==, !=, >, <, >=, <=)
-- Binary arithmetic operators (+, -, *, /, +=, -=, *=, /=)
+- Input/Output operators
+- Comparison operators (`==`, `!=`, `>`, `<`, `>=`, `<=`)
+- Binary arithmetic operators (`+`, `-`, `*`, `/`, `+=`, `-=`, `*=`, `/=`)
 
 It can perform calculations with other Fractions/Integers
 

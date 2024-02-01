@@ -11,7 +11,7 @@
 # Compiler
 CXX          := g++
 DEBUG        := -g
-CXX_VERSION  := --std=c++17
+CXX_VERSION  := --std=c++20
 
 TARGET	     := program.exe
 BIN_DIR	     := bin
