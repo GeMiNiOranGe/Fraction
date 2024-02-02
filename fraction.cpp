@@ -3,6 +3,7 @@
 Fraction::Fraction(int _numerator, int _denominator) {
     this->numerator = _numerator;
     this->denominator = _denominator;
+    this->simplify();
 }
 Fraction::Fraction(const Fraction &_fraction) {
     this->numerator = _fraction.numerator;
@@ -32,16 +33,15 @@ void Fraction::set_denominator(const int &_denominator) {
 double Fraction::to_double() const {
     return static_cast<double>(this->numerator) / this->denominator;
 }
-Fraction Fraction::inverse() {
-    std::swap(this->denominator, this->numerator);
-    return *this;
-}
-Fraction Fraction::simplify() {
+void Fraction::simplify() {
     int _gcd = std::gcd(this->numerator, this->denominator);
     if (_gcd > 1) {
         this->numerator /= _gcd;
         this->denominator /= _gcd;
     }
+}
+Fraction Fraction::inverse() {
+    std::swap(this->denominator, this->numerator);
     return *this;
 }
 
@@ -76,7 +76,9 @@ Fraction to_fraction(double _number) {
         _number *= 10;
         new_denominator *= 10;
     }
-    return Fraction(static_cast<int>(_number), new_denominator).simplify();
+    Fraction result(static_cast<int>(_number), new_denominator);
+    result.simplify();
+    return result;
 }
 
 #pragma region Fraction vs Fraction
