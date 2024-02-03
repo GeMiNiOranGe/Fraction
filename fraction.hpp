@@ -3,7 +3,7 @@
 #define FRACTION_HPP
 
 #include <iostream>
-#include <numeric> // C++17 to use gcd
+#include <numeric>
 #include <utility>
 
 class Fraction {
@@ -69,12 +69,6 @@ inline auto operator<=>(const Fraction &_left, const Fraction &_right) {
     if (_left.get_denominator() == _right.get_denominator()) {
         left = _left.get_numerator();
         right = _right.get_numerator();
-    } else if (_left.get_denominator() == 1) {
-        left = _left.get_numerator() * _right.get_denominator();
-        right = _right.get_numerator();
-    } else if (_right.get_denominator() == 1) {
-        left = _left.get_numerator();
-        right = _right.get_numerator() * _left.get_denominator();
     } else {
         left = _left.get_numerator() * _right.get_denominator();
         right = _right.get_numerator() * _left.get_denominator();
@@ -122,21 +116,25 @@ Fraction &operator-=(Fraction &_left, const int &_right);
 Fraction &operator*=(Fraction &_left, const int &_right);
 Fraction &operator/=(Fraction &_left, const int &_right);
 
-inline Fraction operator+(Fraction _left, const int &_right) {
-    _left += _right;
-    return _left;
+inline Fraction operator+(const Fraction &_left, const int &_right) {
+    Fraction result = _left;
+    result += _right;
+    return result;
 }
-inline Fraction operator-(Fraction _left, const int &_right) {
-    _left -= _right;
-    return _left;
+inline Fraction operator-(const Fraction &_left, const int &_right) {
+    Fraction result = _left;
+    result -= _right;
+    return result;
 }
-inline Fraction operator*(Fraction _left, const int &_right) {
-    _left *= _right;
-    return _left;
+inline Fraction operator*(const Fraction &_left, const int &_right) {
+    Fraction result = _left;
+    result *= _right;
+    return result;
 }
-inline Fraction operator/(Fraction _left, const int &_right) {
-    _left /= _right;
-    return _left;
+inline Fraction operator/(const Fraction &_left, const int &_right) {
+    Fraction result = _left;
+    result /= _right;
+    return result;
 }
 
 inline auto operator<=>(const Fraction &_left, const int &_right) {
