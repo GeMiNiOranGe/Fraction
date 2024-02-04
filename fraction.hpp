@@ -24,23 +24,29 @@ public:
 
     double to_double() const;
     void simplify();
-    Fraction inverse();
+    void inverse();
 
     operator double() const;
 
     Fraction &operator=(const Fraction &) = default;
     Fraction &operator=(Fraction &&_fraction);
 };
+
 Fraction to_fraction(double _number);
 
 std::istream &operator>>(std::istream &_istr, Fraction &_val);
 std::ostream &operator<<(std::ostream &_ostr, const Fraction &_val);
 
-#pragma region Fraction vs Fraction
+#pragma region Binary Arithmetic Operators
 Fraction &operator+=(Fraction &_left, const Fraction &_right);
 Fraction &operator-=(Fraction &_left, const Fraction &_right);
 Fraction &operator*=(Fraction &_left, const Fraction &_right);
 Fraction &operator/=(Fraction &_left, const Fraction &_right);
+
+Fraction &operator+=(Fraction &_left, const int &_right);
+Fraction &operator-=(Fraction &_left, const int &_right);
+Fraction &operator*=(Fraction &_left, const int &_right);
+Fraction &operator/=(Fraction &_left, const int &_right);
 
 inline Fraction operator+(const Fraction &_left, const Fraction &_right) {
     Fraction result = _left;
@@ -63,59 +69,6 @@ inline Fraction operator/(const Fraction &_left, const Fraction &_right) {
     return result;
 }
 
-inline auto operator<=>(const Fraction &_left, const Fraction &_right) {
-    int left, right;
-
-    if (_left.get_denominator() == _right.get_denominator()) {
-        left = _left.get_numerator();
-        right = _right.get_numerator();
-    } else {
-        left = _left.get_numerator() * _right.get_denominator();
-        right = _right.get_numerator() * _left.get_denominator();
-    }
-
-    if (left < right)
-        return std::strong_ordering::less;
-    if (left > right)
-        return std::strong_ordering::greater;
-    return std::strong_ordering::equal;
-}
-inline bool operator<(const Fraction &_left, const Fraction &_right) {
-    return _left <=> _right == std::strong_ordering::less;
-}
-inline bool operator>(const Fraction &_left, const Fraction &_right) {
-    return _left <=> _right == std::strong_ordering::greater;
-}
-inline bool operator<=(const Fraction &_left, const Fraction &_right) {
-    return _left <=> _right != std::strong_ordering::greater;
-}
-inline bool operator>=(const Fraction &_left, const Fraction &_right) {
-    return _left <=> _right != std::strong_ordering::less;
-}
-inline bool operator==(const Fraction &_left, const Fraction &_right) {
-    int left, right;
-
-    if (_left.get_denominator() == _right.get_denominator()) {
-        left = _left.get_numerator();
-        right = _right.get_numerator();
-    } else {
-        left = _left.get_numerator() * _right.get_denominator();
-        right = _right.get_numerator() * _left.get_denominator();
-    }
-
-    return left == right;
-}
-inline bool operator!=(const Fraction &_left, const Fraction &_right) {
-    return !operator==(_left, _right);
-}
-#pragma endregion
-
-#pragma region Fraction vs Number
-Fraction &operator+=(Fraction &_left, const int &_right);
-Fraction &operator-=(Fraction &_left, const int &_right);
-Fraction &operator*=(Fraction &_left, const int &_right);
-Fraction &operator/=(Fraction &_left, const int &_right);
-
 inline Fraction operator+(const Fraction &_left, const int &_right) {
     Fraction result = _left;
     result += _right;
@@ -137,30 +90,6 @@ inline Fraction operator/(const Fraction &_left, const int &_right) {
     return result;
 }
 
-inline auto operator<=>(const Fraction &_left, const int &_right) {
-    return _left <=> Fraction(_right);
-}
-inline bool operator<(const Fraction &_left, const int &_right) {
-    return _left <=> _right == std::strong_ordering::less;
-}
-inline bool operator>(const Fraction &_left, const int &_right) {
-    return _left <=> _right == std::strong_ordering::greater;
-}
-inline bool operator<=(const Fraction &_left, const int &_right) {
-    return _left <=> _right != std::strong_ordering::greater;
-}
-inline bool operator>=(const Fraction &_left, const int &_right) {
-    return _left <=> _right != std::strong_ordering::less;
-}
-inline bool operator==(const Fraction &_left, const int &_right) {
-    return _left == Fraction(_right);
-}
-inline bool operator!=(const Fraction &_left, const int &_right) {
-    return !operator==(_left, _right);
-}
-#pragma endregion
-
-#pragma region Number vs Fraction
 inline Fraction operator+(const int &_left, const Fraction &_right) {
     Fraction result(_left);
     result += _right;
@@ -181,10 +110,90 @@ inline Fraction operator/(const int &_left, const Fraction &_right) {
     result /= _right;
     return result;
 }
+#pragma endregion
 
+#pragma region Spaceship Operator
+inline auto operator<=>(const Fraction &_left, const Fraction &_right) {
+    int left, right;
+
+    if (_left.get_denominator() == _right.get_denominator()) {
+        left = _left.get_numerator();
+        right = _right.get_numerator();
+    } else {
+        left = _left.get_numerator() * _right.get_denominator();
+        right = _right.get_numerator() * _left.get_denominator();
+    }
+
+    if (left < right)
+        return std::strong_ordering::less;
+    if (left > right)
+        return std::strong_ordering::greater;
+    return std::strong_ordering::equal;
+}
+inline auto operator<=>(const Fraction &_left, const int &_right) {
+    return _left <=> Fraction(_right);
+}
 inline auto operator<=>(const int &_left, const Fraction &_right) {
     return Fraction(_left) <=> _right;
 }
+#pragma endregion
+
+#pragma region Comparison Operators
+inline bool operator==(const Fraction &_left, const Fraction &_right) {
+    int left, right;
+
+    if (_left.get_denominator() == _right.get_denominator()) {
+        left = _left.get_numerator();
+        right = _right.get_numerator();
+    } else {
+        left = _left.get_numerator() * _right.get_denominator();
+        right = _right.get_numerator() * _left.get_denominator();
+    }
+
+    return left == right;
+}
+inline bool operator!=(const Fraction &_left, const Fraction &_right) {
+    return !operator==(_left, _right);
+}
+inline bool operator==(const Fraction &_left, const int &_right) {
+    return _left == Fraction(_right);
+}
+inline bool operator!=(const Fraction &_left, const int &_right) {
+    return !operator==(_left, _right);
+}
+inline bool operator==(const int &_left, const Fraction &_right) {
+    return Fraction(_left) == _right;
+}
+inline bool operator!=(const int &_left, const Fraction &_right) {
+    return !operator==(_left, _right);
+}
+
+inline bool operator<(const Fraction &_left, const Fraction &_right) {
+    return _left <=> _right == std::strong_ordering::less;
+}
+inline bool operator>(const Fraction &_left, const Fraction &_right) {
+    return _left <=> _right == std::strong_ordering::greater;
+}
+inline bool operator<=(const Fraction &_left, const Fraction &_right) {
+    return _left <=> _right != std::strong_ordering::greater;
+}
+inline bool operator>=(const Fraction &_left, const Fraction &_right) {
+    return _left <=> _right != std::strong_ordering::less;
+}
+
+inline bool operator<(const Fraction &_left, const int &_right) {
+    return _left <=> _right == std::strong_ordering::less;
+}
+inline bool operator>(const Fraction &_left, const int &_right) {
+    return _left <=> _right == std::strong_ordering::greater;
+}
+inline bool operator<=(const Fraction &_left, const int &_right) {
+    return _left <=> _right != std::strong_ordering::greater;
+}
+inline bool operator>=(const Fraction &_left, const int &_right) {
+    return _left <=> _right != std::strong_ordering::less;
+}
+
 inline bool operator<(const int &_left, const Fraction &_right) {
     return _left <=> _right == std::strong_ordering::less;
 }
@@ -196,12 +205,6 @@ inline bool operator<=(const int &_left, const Fraction &_right) {
 }
 inline bool operator>=(const int &_left, const Fraction &_right) {
     return _left <=> _right != std::strong_ordering::less;
-}
-inline bool operator==(const int &_left, const Fraction &_right) {
-    return Fraction(_left) == _right;
-}
-inline bool operator!=(const int &_left, const Fraction &_right) {
-    return !operator==(_left, _right);
 }
 #pragma endregion
 

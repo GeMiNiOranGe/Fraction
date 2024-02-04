@@ -40,9 +40,8 @@ void Fraction::simplify() {
         this->denominator /= _gcd;
     }
 }
-Fraction Fraction::inverse() {
+void Fraction::inverse() {
     std::swap(this->denominator, this->numerator);
-    return *this;
 }
 
 Fraction::operator double() const {
@@ -81,7 +80,7 @@ Fraction to_fraction(double _number) {
     return result;
 }
 
-#pragma region Fraction vs Fraction
+#pragma region Implement binary arithmetic operators
 Fraction &operator+=(Fraction &_left, const Fraction &_right) {
     if (_left.get_denominator() == _right.get_denominator())
         _left.set_numerator(_left.get_numerator() + _right.get_numerator());
@@ -114,9 +113,7 @@ Fraction &operator/=(Fraction &_left, const Fraction &_right) {
     _left.simplify();
     return _left;
 }
-#pragma endregion
 
-#pragma region Fraction vs Number
 Fraction &operator+=(Fraction &_left, const int &_right) {
     _left.set_numerator(_left.get_numerator() + _left.get_denominator() * _right);
     _left.simplify();
