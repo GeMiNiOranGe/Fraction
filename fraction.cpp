@@ -30,18 +30,31 @@ void Fraction::set_denominator(const int &_denominator) {
     this->denominator = _denominator;
 }
 
-double Fraction::to_double() const {
-    return static_cast<double>(this->numerator) / this->denominator;
+std::strong_ordering Fraction::compare(const Fraction &_fraction) const {
+    // A type of unify the denominator
+    const int _GCD = std::gcd(this->denominator, _fraction.denominator);
+    int left = this->numerator * (_fraction.denominator / _GCD);
+    int right = _fraction.numerator * (this->denominator / _GCD);
+
+    if (left < right)
+        return std::strong_ordering::less;
+    if (left > right)
+        return std::strong_ordering::greater;
+    return std::strong_ordering::equal;
 }
 void Fraction::simplify() {
-    int _gcd = std::gcd(this->numerator, this->denominator);
-    if (_gcd > 1) {
-        this->numerator /= _gcd;
-        this->denominator /= _gcd;
+    const int _GCD = std::gcd(this->numerator, this->denominator);
+    if (_GCD > 1) {
+        this->numerator /= _GCD;
+        this->denominator /= _GCD;
     }
 }
 void Fraction::inverse() {
     std::swap(this->denominator, this->numerator);
+}
+
+double Fraction::to_double() const {
+    return static_cast<double>(this->numerator) / this->denominator;
 }
 
 Fraction::operator double() const {
