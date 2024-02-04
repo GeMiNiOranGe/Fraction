@@ -160,4 +160,49 @@ inline bool operator!=(const Fraction &_left, const int &_right) {
 }
 #pragma endregion
 
+#pragma region Number vs Fraction
+inline Fraction operator+(const int &_left, const Fraction &_right) {
+    Fraction result(_left);
+    result += _right;
+    return result;
+}
+inline Fraction operator-(const int &_left, const Fraction &_right) {
+    Fraction result(_left);
+    result -= _right;
+    return result;
+}
+inline Fraction operator*(const int &_left, const Fraction &_right) {
+    Fraction result(_left);
+    result *= _right;
+    return result;
+}
+inline Fraction operator/(const int &_left, const Fraction &_right) {
+    Fraction result(_left);
+    result /= _right;
+    return result;
+}
+
+inline auto operator<=>(const int &_left, const Fraction &_right) {
+    return Fraction(_left) <=> _right;
+}
+inline bool operator<(const int &_left, const Fraction &_right) {
+    return _left <=> _right == std::strong_ordering::less;
+}
+inline bool operator>(const int &_left, const Fraction &_right) {
+    return _left <=> _right == std::strong_ordering::greater;
+}
+inline bool operator<=(const int &_left, const Fraction &_right) {
+    return _left <=> _right != std::strong_ordering::greater;
+}
+inline bool operator>=(const int &_left, const Fraction &_right) {
+    return _left <=> _right != std::strong_ordering::less;
+}
+inline bool operator==(const int &_left, const Fraction &_right) {
+    return Fraction(_left) == _right;
+}
+inline bool operator!=(const int &_left, const Fraction &_right) {
+    return !operator==(_left, _right);
+}
+#pragma endregion
+
 #endif // end FRACTION_HPP
