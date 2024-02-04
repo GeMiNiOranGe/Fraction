@@ -1,11 +1,11 @@
 <p align="center">
-  <a href="https://code.visualstudio.com/">
+  <a style="text-decoration: none" href="https://code.visualstudio.com/">
     <img alt="Editor" src="https://img.shields.io/badge/Editor-VSCode-007acc">
   </a>
-  <a href="https://www.msys2.org/">
+  <a style="text-decoration: none" href="https://www.msys2.org/">
     <img alt="Compiler" src="https://img.shields.io/badge/Compiler-Mingw64_of_MSYS2-7F00FF">
   </a>
-  <a href="https://en.cppreference.com/w/cpp/20">
+  <a style="text-decoration: none" href="https://en.cppreference.com/w/cpp/20">
     <img alt="Static Badge" src="https://img.shields.io/badge/C%2B%2B-20-00599c">
   </a>
 </p>
