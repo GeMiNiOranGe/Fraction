@@ -1,6 +1,6 @@
 #include "fraction.hpp"
 
-int main() {
+int main(int argc, char const *argv[]) {
     Fraction first, second, third(1, 2), fourth(3, 4);
     std::cout << "Please enter the first fraction: ";
     std::cin >> first;
