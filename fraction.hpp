@@ -6,6 +6,8 @@
 #include <numeric>
 #include <utility>
 
+#include "fraction_exception.hpp"
+
 class Fraction {
 private:
     int numerator, denominator;
@@ -27,13 +29,14 @@ public:
     void inverse();
 
     double to_double() const;
-    
+
     operator double() const;
 
     Fraction &operator=(const Fraction &) = default;
     Fraction &operator=(Fraction &&_fraction);
 };
 
+bool is_valid_fraction(Fraction _fraction);
 Fraction to_fraction(double _number);
 
 std::istream &operator>>(std::istream &_istr, Fraction &_val);

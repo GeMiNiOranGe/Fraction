@@ -1,9 +1,9 @@
 #include "fraction.hpp"
 
+#pragma region Class Fraction
 Fraction::Fraction(int _numerator, int _denominator) {
     this->numerator = _numerator;
     this->denominator = _denominator;
-    this->simplify();
 }
 Fraction::Fraction(const Fraction &_fraction) {
     this->numerator = _fraction.numerator;
@@ -43,6 +43,9 @@ std::strong_ordering Fraction::compare(const Fraction &_fraction) const {
     return std::strong_ordering::equal;
 }
 void Fraction::simplify() {
+    if (this->denominator == 0)
+        return;
+
     const int _GCD = std::gcd(this->numerator, this->denominator);
     if (_GCD > 1) {
         this->numerator /= _GCD;
@@ -81,7 +84,18 @@ std::ostream &operator<<(std::ostream &_ostr, const Fraction &_val) {
         : _ostr << _val.get_numerator() << '/' << _val.get_denominator();
     return _ostr;
 }
+#pragma endregion
 
+bool is_valid_fraction(Fraction _fraction) {
+    try {
+        if (_fraction.get_denominator() == 0)
+            throw invalid_denominator();
+    } catch (const std::invalid_argument &e) {
+        std::cerr << '(' << _fraction << "): " << e.what() << '\n';
+        return false;
+    }
+    return true;
+}
 Fraction to_fraction(double _number) {
     int new_denominator = 1;
     while (static_cast<double>(static_cast<int>(_number)) != _number) {

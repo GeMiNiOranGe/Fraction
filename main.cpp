@@ -8,17 +8,21 @@ int main() {
     std::cin >> second;
     std::cout << std::endl;
 
-    if (first.get_denominator() == 0 || second.get_denominator() == 0)
-        std::cout << "Error..." << std::endl;
-    else {
+    first.simplify();
+    second.simplify();
+
+    bool is_first_valid = is_valid_fraction(first);
+    bool is_second_valid = is_valid_fraction(second);
+
+    if (is_first_valid && is_second_valid) {
         std::cout << "(" << first << ") + (" << second << ") = " << first + second << std::endl;
         std::cout << "(" << first << ") - (" << second << ") = " << first - second << std::endl;
         std::cout << "(" << first << ") * (" << second << ") = " << first * second << std::endl;
         std::cout << "(" << first << ") / (" << second << ") = ";
         Fraction result = first / second;
         result.get_denominator() == 0
-            ? std::cout << "Error..." << std::endl
-            : std::cout << first / second << std::endl;
+            ? std::cout << "Cannot divide by zero" << std::endl
+            : std::cout << result << std::endl;
     }
     std::cout << std::endl;
 
