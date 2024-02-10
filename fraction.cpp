@@ -2,6 +2,9 @@
 
 #pragma region Class Fraction
 Fraction::Fraction(int _numerator, int _denominator) {
+    if (_denominator == 0)
+        throw invalid_fraction();
+
     this->numerator = _numerator;
     this->denominator = _denominator;
 }
@@ -75,7 +78,8 @@ Fraction &Fraction::operator=(Fraction &&_fraction) {
 std::istream &operator>>(std::istream &_istr, Fraction &_val) {
     int _numerator, _denominator;
     _istr >> _numerator >> _denominator;
-    _val = {_numerator, _denominator};
+    _val.set_numerator(_numerator);
+    _val.set_denominator(_denominator);
     return _istr;
 }
 std::ostream &operator<<(std::ostream &_ostr, const Fraction &_val) {
