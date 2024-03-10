@@ -2,9 +2,9 @@
 
 #pragma region Class Fraction
 Fraction::Fraction(int _numerator, int _denominator) {
-    if (_denominator == 0)
+    if (_denominator == 0) {
         throw invalid_fraction();
-
+    }
     this->numerator = _numerator;
     this->denominator = _denominator;
 }
@@ -30,6 +30,9 @@ void Fraction::set_numerator(const int &_numerator) {
     this->numerator = _numerator;
 }
 void Fraction::set_denominator(const int &_denominator) {
+    if (_denominator == 0) {
+        throw invalid_denominator();
+    }
     this->denominator = _denominator;
 }
 
@@ -39,16 +42,18 @@ std::strong_ordering Fraction::compare(const Fraction &_fraction) const {
     int left = this->numerator * (_fraction.denominator / _GCD);
     int right = _fraction.numerator * (this->denominator / _GCD);
 
-    if (left < right)
+    if (left < right) {
         return std::strong_ordering::less;
-    if (left > right)
+    }
+    if (left > right) {
         return std::strong_ordering::greater;
+    }
     return std::strong_ordering::equal;
 }
 void Fraction::simplify() {
-    if (this->denominator == 0)
+    if (this->denominator == 0) {
         return;
-
+    }
     const int _GCD = std::gcd(this->numerator, this->denominator);
     if (_GCD > 1) {
         this->numerator /= _GCD;
@@ -68,8 +73,9 @@ Fraction::operator double() const {
 }
 
 Fraction &Fraction::operator=(Fraction &&_fraction) {
-    if (this == &_fraction)
+    if (this == &_fraction) {
         return *this;
+    }
     this->numerator = std::exchange(_fraction.numerator, 0);
     this->denominator = std::exchange(_fraction.denominator, 1);
     return *this;
@@ -90,16 +96,6 @@ std::ostream &operator<<(std::ostream &_ostr, const Fraction &_val) {
 }
 #pragma endregion
 
-bool is_valid_fraction(Fraction _fraction) {
-    try {
-        if (_fraction.get_denominator() == 0)
-            throw invalid_denominator();
-    } catch (const std::invalid_argument &e) {
-        std::cerr << '(' << _fraction << "): " << e.what() << '\n';
-        return false;
-    }
-    return true;
-}
 Fraction to_fraction(double _number) {
     int new_denominator = 1;
     while (static_cast<double>(static_cast<int>(_number)) != _number) {
@@ -113,9 +109,9 @@ Fraction to_fraction(double _number) {
 
 #pragma region Implement binary arithmetic operators
 Fraction &operator+=(Fraction &_left, const Fraction &_right) {
-    if (_left.get_denominator() == _right.get_denominator())
+    if (_left.get_denominator() == _right.get_denominator()) {
         _left.set_numerator(_left.get_numerator() + _right.get_numerator());
-    else {
+    } else {
         _left.set_numerator(_left.get_numerator() * _right.get_denominator() + _left.get_denominator() * _right.get_numerator());
         _left.set_denominator(_left.get_denominator() * _right.get_denominator());
     }
@@ -123,9 +119,9 @@ Fraction &operator+=(Fraction &_left, const Fraction &_right) {
     return _left;
 }
 Fraction &operator-=(Fraction &_left, const Fraction &_right) {
-    if (_left.get_denominator() == _right.get_denominator())
+    if (_left.get_denominator() == _right.get_denominator()) {
         _left.set_numerator(_left.get_numerator() - _right.get_numerator());
-    else {
+    } else {
         _left.set_numerator(_left.get_numerator() * _right.get_denominator() - _left.get_denominator() * _right.get_numerator());
         _left.set_denominator(_left.get_denominator() * _right.get_denominator());
     }
@@ -139,12 +135,19 @@ Fraction &operator*=(Fraction &_left, const Fraction &_right) {
     return _left;
 }
 Fraction &operator/=(Fraction &_left, const Fraction &_right) {
-    _left.set_numerator(_left.get_numerator() * _right.get_denominator());
-    _left.set_denominator(_left.get_denominator() * _right.get_numerator());
+    int new_numerator = _left.get_numerator() * _right.get_denominator();
+    int new_denominator = _left.get_denominator() * _right.get_numerator();
+
+    if (new_denominator == 0) {
+        throw divide_by_zero();
+    }
+    _left.set_numerator(new_numerator);
+    _left.set_denominator(new_denominator);
     _left.simplify();
     return _left;
 }
 
+// TODO: remove the overloaded operator below
 Fraction &operator+=(Fraction &_left, const int &_right) {
     _left.set_numerator(_left.get_numerator() + _left.get_denominator() * _right);
     _left.simplify();

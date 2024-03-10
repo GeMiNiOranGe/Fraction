@@ -36,7 +36,6 @@ public:
     Fraction &operator=(Fraction &&_fraction);
 };
 
-bool is_valid_fraction(Fraction _fraction);
 Fraction to_fraction(double _number);
 
 std::istream &operator>>(std::istream &_istr, Fraction &_val);

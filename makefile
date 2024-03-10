@@ -33,7 +33,7 @@ SOURCES	     := $(wildcard *.cpp)
 
 #===< VARIABLES >=========#
 EXECUTABLE   := $(BIN_DIR)/$(TARGET)
-OBJECTS      := $(SOURCES:%.cpp=%.o)                                # Replace *.cpp into *.o file
+OBJECTS      := $(SOURCES:%.cpp=%.o)                  # Replace *.cpp into *.o file
 OBJECTS_PATH := $(patsubst %,$(BIN_DIR)/%,$(OBJECTS)) # Appprefix .bin to *.o file into .bin/*.o
 
 #===< LINKER >============#
