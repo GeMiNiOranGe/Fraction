@@ -1,4 +1,5 @@
 #include <cassert>
+#include <filesystem>
 
 #include "fraction.hpp"
 
@@ -20,6 +21,8 @@ int main(int argc, char const *argv[]) {
     assert(3 >= Fraction(3, 2)); // 3 >= 1.5
     assert(2 < Fraction(5, 2));  // 2 <  2.5
     assert(3 > Fraction(3, 2));  // 3 >  1.5
-    std::cout << "all success";
+
+    std::filesystem::path current_file(__FILE__);
+    std::cout << current_file.stem() << ": success" << std::endl;
     return 0;
 }

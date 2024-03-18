@@ -51,9 +51,6 @@ std::strong_ordering Fraction::compare(const Fraction &_fraction) const {
     return std::strong_ordering::equal;
 }
 void Fraction::simplify() {
-    if (this->denominator == 0) {
-        return;
-    }
     const int _GCD = std::gcd(this->numerator, this->denominator);
     if (_GCD > 1) {
         this->numerator /= _GCD;
@@ -135,19 +132,16 @@ Fraction &operator*=(Fraction &_left, const Fraction &_right) {
     return _left;
 }
 Fraction &operator/=(Fraction &_left, const Fraction &_right) {
-    int new_numerator = _left.get_numerator() * _right.get_denominator();
-    int new_denominator = _left.get_denominator() * _right.get_numerator();
-
-    if (new_denominator == 0) {
+    if (_right.get_numerator() == 0) {
         throw divide_by_zero();
     }
-    _left.set_numerator(new_numerator);
-    _left.set_denominator(new_denominator);
+    _left.set_numerator(_left.get_numerator() * _right.get_denominator());
+    _left.set_denominator(_left.get_denominator() * _right.get_numerator());
+    ;
     _left.simplify();
     return _left;
 }
 
-// TODO: remove the overloaded operator below
 Fraction &operator+=(Fraction &_left, const int &_right) {
     _left.set_numerator(_left.get_numerator() + _left.get_denominator() * _right);
     _left.simplify();
@@ -164,6 +158,9 @@ Fraction &operator*=(Fraction &_left, const int &_right) {
     return _left;
 }
 Fraction &operator/=(Fraction &_left, const int &_right) {
+    if (_right == 0) {
+        throw divide_by_zero();
+    }
     _left.set_denominator(_left.get_denominator() * _right);
     _left.simplify();
     return _left;
