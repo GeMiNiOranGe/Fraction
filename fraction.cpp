@@ -3,7 +3,7 @@
 #pragma region Class Fraction
 Fraction::Fraction(int numerator, int denominator) {
     if (denominator == 0) {
-        throw invalid_fraction();
+        throw InvalidFraction();
     }
     this->numerator_ = numerator;
     this->denominator_ = denominator;
@@ -31,7 +31,7 @@ void Fraction::set_numerator(const int &numerator) {
 }
 void Fraction::set_denominator(const int &denominator) {
     if (denominator == 0) {
-        throw invalid_denominator();
+        throw InvalidDenominator();
     }
     this->denominator_ = denominator;
 }
@@ -133,7 +133,7 @@ Fraction &operator*=(Fraction &left, const Fraction &right) {
 }
 Fraction &operator/=(Fraction &left, const Fraction &right) {
     if (right.get_numerator() == 0) {
-        throw divide_by_zero();
+        throw DivideByZero();
     }
     left.set_numerator(left.get_numerator() * right.get_denominator());
     left.set_denominator(left.get_denominator() * right.get_numerator());
@@ -159,7 +159,7 @@ Fraction &operator*=(Fraction &left, const int &right) {
 }
 Fraction &operator/=(Fraction &left, const int &right) {
     if (right == 0) {
-        throw divide_by_zero();
+        throw DivideByZero();
     }
     left.set_denominator(left.get_denominator() * right);
     left.simplify();

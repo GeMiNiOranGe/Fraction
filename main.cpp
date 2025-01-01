@@ -22,7 +22,7 @@ int main(int argc, char const *argv[]) {
     try {
         quotient = first / second;
         std::cout << quotient << std::endl;
-    } catch (const divide_by_zero &e) {
+    } catch (const DivideByZero &e) {
         std::cerr << "Error: " << e.what() << '\n';
     }
     std::cout << std::endl;
