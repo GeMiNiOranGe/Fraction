@@ -32,4 +32,5 @@
 *.app
 
 # App config
-.vscode/
+.vs
+.vscode
