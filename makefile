@@ -13,56 +13,67 @@ CXX          := g++
 DEBUG        := -g
 CXX_VERSION  := --std=c++20
 
-TARGET	     := program.exe
-BIN_DIR	     := bin
+BIN_DIR      := bin
+
+HEADER_DIR   := include
+SOURCE_DIR   := lib
+
+EXAMPLE_DIR  := examples
 
 #====================================================#
 #     YOU CAN EDIT IF YOU KNOW WHAT YOU'RE DOING     #
 #====================================================#
 # Flags
-CXXFLAGS     := -c -Wall $(DEBUG) $(CXX_VERSION)
+CXXFLAGS     := -c -Wall $(DEBUG) -I./$(HEADER_DIR) $(CXX_VERSION)
 LDFLAGS      :=
 
-HEADERS	     := $(wildcard *.hpp)
-SOURCES	     := $(wildcard *.cpp)
+HEADERS      := $(wildcard $(HEADER_DIR)/*.hpp)
+SOURCES      := $(wildcard $(SOURCE_DIR)/*.cpp)
+
+EXAMPLES     := $(wildcard $(EXAMPLE_DIR)/*.cpp)
 
 #====================================================#
 #        DO NOT ALLOW EDITING BELOW THIS LINE        #
 #====================================================#
-.PHONY: build rebuild run clean remove-dir
+.PHONY: build build-and-run rebuild run clean remove-dir build-examples run-examples
 
 #===< VARIABLES >=========#
-EXECUTABLE   := $(BIN_DIR)/$(TARGET)
-OBJECTS      := $(SOURCES:%.cpp=%.o)                  # Replace *.cpp into *.o file
-OBJECTS_PATH := $(patsubst %,$(BIN_DIR)/%,$(OBJECTS)) # Appprefix .bin to *.o file into .bin/*.o
+OBJECTS      := $(SOURCES:%.cpp=%.o)                                # Replace `*.cpp` into `*.o` file
+OBJECTS_PATH := $(patsubst $(SOURCE_DIR)/%,$(BIN_DIR)/%,$(OBJECTS)) # Appprefix `.bin` to `*.o` file into `.bin/*.o`
 
-#===< LINKER >============#
-build:			$(EXECUTABLE)
-$(EXECUTABLE):	$(OBJECTS_PATH)
-	@$(CXX) $(LDFLAGS) -o $(EXECUTABLE) $(OBJECTS_PATH)
-	@echo Linked file - $(subst /,\,$(CURDIR)/$(EXECUTABLE))
-	@echo Build successful!!!
-	@echo ------------------------
+# Replace `examples/main.cpp` into `bin/main_example.exe`
+EXAMPLE_BIN  := $(patsubst $(EXAMPLE_DIR)/%.cpp,$(BIN_DIR)/%_example.exe,$(EXAMPLES))
 
 #===< COMPILER >==========#
-$(BIN_DIR)/%.o:	%.cpp	$(HEADERS)	| $(BIN_DIR)
+build:			$(OBJECTS_PATH)
+	@echo Build successfully!!!
+	@echo ------------------------
+
+$(BIN_DIR)/%.o:	$(SOURCE_DIR)/%.cpp	$(HEADERS)	| $(BIN_DIR)
 	@$(CXX) $(CXXFLAGS) -o $@ $<
 	@echo Compiled file - $(subst /,\,$(CURDIR)/$@)
+
+#===< EXAMPLES >==========#
+build-examples: $(EXAMPLE_BIN)
+	@echo All examples built successfully!!!
+
+$(BIN_DIR)/%_example.exe: $(EXAMPLE_DIR)/%.cpp $(HEADERS) $(OBJECTS_PATH) | $(BIN_DIR)
+	@$(CXX) $(LDFLAGS) -Wall $(DEBUG) -I./$(HEADER_DIR) $(CXX_VERSION) -o $@ $< $(OBJECTS_PATH) $(HEADERS)
+	@echo Built example - $(subst /,\,$(CURDIR)/$@)
 
 #===< MISCELLANEOUS >=====#
 $(BIN_DIR):
 	@mkdir $(BIN_DIR)
 	@echo Created directory - $(subst /,\,$(CURDIR)/$(BIN_DIR))
 
-rebuild:	clean	build
-run:		build
-	@$(EXECUTABLE)
+rebuild:		clean	build
 
 clean:
 	@del /s \
-		$(subst /,\,$(EXECUTABLE)) \
-		$(subst /,\,$(OBJECTS_PATH))
+		$(subst /,\,$(OBJECTS_PATH)) \
+		$(subst /,\,$(EXAMPLE_BIN))
 	@echo Clean done
+	@echo ------------------------
 
 remove-dir:
 	@rmdir /s /q $(BIN_DIR)
