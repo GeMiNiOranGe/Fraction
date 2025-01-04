@@ -13,7 +13,7 @@
 # Fraction
 This library supports the calculation of a fraction
 
-**NOTE:** Fraction supports from `C++20` to latest
+> Note: Fraction supports from `C++20` to latest
 
 ## What can the fraction class do
 The fraction class is overloaded with the following operators
@@ -22,12 +22,21 @@ The fraction class is overloaded with the following operators
 - Comparison operators (`==`, `!=`, `>`, `<`, `>=`, `<=`)
 - Binary arithmetic operators (`+`, `-`, `*`, `/`, `+=`, `-=`, `*=`, `/=`)
 
-It can perform calculations with other Fractions/Integers
+It can be calculated with other Fractions/Integers
 
-## How to Install and Run the Project
+## How to Install
 Open terminal with Visual Studio Code and run the command line below
 ```cmd
-mingw32-make run
+mingw32-make
+```
+
+### Full example code
+You can read more examples [here](examples).
+```cmd
+mingw32-make build-examples
+```
+```cmd
+.\bin\<example-file-name>_example.exe
 ```
 
 ## Sample code
@@ -71,5 +80,3 @@ int main() {
     return 0;
 }
 ```
-
-### Full sample code in [main](main.cpp)
