@@ -58,7 +58,7 @@ build-examples: $(EXAMPLE_BIN)
 	@echo All examples built successfully!!!
 
 $(BIN_DIR)/%_example.exe: $(EXAMPLE_DIR)/%.cpp $(HEADERS) $(OBJECTS_PATH) | $(BIN_DIR)
-	@$(CXX) $(LDFLAGS) -Wall $(DEBUG) -I./$(HEADER_DIR) $(CXX_VERSION) -o $@ $< $(OBJECTS_PATH) $(HEADERS)
+	@$(CXX) $(LDFLAGS) -Wall $(DEBUG) -I./$(HEADER_DIR) $(CXX_VERSION) -o $@ $< $(OBJECTS_PATH)
 	@echo Built example - $(subst /,\,$(CURDIR)/$@)
 
 #===< MISCELLANEOUS >=====#
