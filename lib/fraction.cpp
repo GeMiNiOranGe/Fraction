@@ -38,9 +38,9 @@ void Fraction::set_denominator(const int &denominator) {
 
 std::strong_ordering Fraction::compare(const Fraction &fraction) const {
     // A type of unify the denominator
-    const int _GCD = std::gcd(this->denominator_, fraction.denominator_);
-    int left = this->numerator_ * (fraction.denominator_ / _GCD);
-    int right = fraction.numerator_ * (this->denominator_ / _GCD);
+    const int GCD_VALUE = std::gcd(this->denominator_, fraction.denominator_);
+    int left = this->numerator_ * (fraction.denominator_ / GCD_VALUE);
+    int right = fraction.numerator_ * (this->denominator_ / GCD_VALUE);
 
     if (left < right) {
         return std::strong_ordering::less;
@@ -51,10 +51,10 @@ std::strong_ordering Fraction::compare(const Fraction &fraction) const {
     return std::strong_ordering::equal;
 }
 void Fraction::simplify() {
-    const int _GCD = std::gcd(this->numerator_, this->denominator_);
-    if (_GCD > 1) {
-        this->numerator_ /= _GCD;
-        this->denominator_ /= _GCD;
+    const int GCD_VALUE = std::gcd(this->numerator_, this->denominator_);
+    if (GCD_VALUE > 1) {
+        this->numerator_ /= GCD_VALUE;
+        this->denominator_ /= GCD_VALUE;
     }
 }
 void Fraction::inverse() {
