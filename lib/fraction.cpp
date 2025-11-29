@@ -8,20 +8,24 @@ Fraction::Fraction(int numerator, int denominator) {
     this->numerator_ = numerator;
     this->denominator_ = denominator;
 }
+
 Fraction::Fraction(const Fraction &fraction) {
     this->numerator_ = fraction.numerator_;
     this->denominator_ = fraction.denominator_;
 }
+
 Fraction::Fraction(Fraction &&fraction) {
     this->numerator_ = std::exchange(fraction.numerator_, 0);
     this->denominator_ = std::exchange(fraction.denominator_, 1);
 }
+
 Fraction::~Fraction() {
 }
 
 const int &Fraction::get_numerator() const {
     return this->numerator_;
 }
+
 const int &Fraction::get_denominator() const {
     return this->denominator_;
 }
@@ -29,6 +33,7 @@ const int &Fraction::get_denominator() const {
 void Fraction::set_numerator(const int &numerator) {
     this->numerator_ = numerator;
 }
+
 void Fraction::set_denominator(const int &denominator) {
     if (denominator == 0) {
         throw InvalidDenominator();
@@ -50,6 +55,7 @@ std::strong_ordering Fraction::compare(const Fraction &fraction) const {
     }
     return std::strong_ordering::equal;
 }
+
 void Fraction::simplify() {
     const int GCD_VALUE = std::gcd(this->numerator_, this->denominator_);
     if (GCD_VALUE > 1) {
@@ -57,6 +63,7 @@ void Fraction::simplify() {
         this->denominator_ /= GCD_VALUE;
     }
 }
+
 void Fraction::inverse() {
     std::swap(this->denominator_, this->numerator_);
 }
@@ -77,20 +84,6 @@ Fraction &Fraction::operator=(Fraction &&fraction) {
     this->denominator_ = std::exchange(fraction.denominator_, 1);
     return *this;
 }
-
-std::istream &operator>>(std::istream &istr, Fraction &val) {
-    int numerator, denominator;
-    istr >> numerator >> denominator;
-    val.set_numerator(numerator);
-    val.set_denominator(denominator);
-    return istr;
-}
-std::ostream &operator<<(std::ostream &ostr, const Fraction &val) {
-    val.get_denominator() == 1
-        ? ostr << val.get_numerator()
-        : ostr << val.get_numerator() << '/' << val.get_denominator();
-    return ostr;
-}
 #pragma endregion
 
 Fraction to_fraction(double number) {
@@ -104,6 +97,21 @@ Fraction to_fraction(double number) {
     return result;
 }
 
+std::istream &operator>>(std::istream &istr, Fraction &val) {
+    int numerator, denominator;
+    istr >> numerator >> denominator;
+    val.set_numerator(numerator);
+    val.set_denominator(denominator);
+    return istr;
+}
+
+std::ostream &operator<<(std::ostream &ostr, const Fraction &val) {
+    val.get_denominator() == 1
+        ? ostr << val.get_numerator()
+        : ostr << val.get_numerator() << '/' << val.get_denominator();
+    return ostr;
+}
+
 #pragma region Implement binary arithmetic operators
 Fraction &operator+=(Fraction &left, const Fraction &right) {
     if (left.get_denominator() == right.get_denominator()) {
@@ -115,6 +123,7 @@ Fraction &operator+=(Fraction &left, const Fraction &right) {
     left.simplify();
     return left;
 }
+
 Fraction &operator-=(Fraction &left, const Fraction &right) {
     if (left.get_denominator() == right.get_denominator()) {
         left.set_numerator(left.get_numerator() - right.get_numerator());
@@ -125,19 +134,20 @@ Fraction &operator-=(Fraction &left, const Fraction &right) {
     left.simplify();
     return left;
 }
+
 Fraction &operator*=(Fraction &left, const Fraction &right) {
     left.set_numerator(left.get_numerator() * right.get_numerator());
     left.set_denominator(left.get_denominator() * right.get_denominator());
     left.simplify();
     return left;
 }
+
 Fraction &operator/=(Fraction &left, const Fraction &right) {
     if (right.get_numerator() == 0) {
         throw DivideByZero();
     }
     left.set_numerator(left.get_numerator() * right.get_denominator());
     left.set_denominator(left.get_denominator() * right.get_numerator());
-    ;
     left.simplify();
     return left;
 }
@@ -147,16 +157,19 @@ Fraction &operator+=(Fraction &left, const int &right) {
     left.simplify();
     return left;
 }
+
 Fraction &operator-=(Fraction &left, const int &right) {
     left.set_numerator(left.get_numerator() - left.get_denominator() * right);
     left.simplify();
     return left;
 }
+
 Fraction &operator*=(Fraction &left, const int &right) {
     left.set_numerator(left.get_numerator() * right);
     left.simplify();
     return left;
 }
+
 Fraction &operator/=(Fraction &left, const int &right) {
     if (right == 0) {
         throw DivideByZero();
