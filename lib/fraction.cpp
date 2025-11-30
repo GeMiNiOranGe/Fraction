@@ -1,6 +1,5 @@
 #include "fraction.hpp"
 
-#pragma region Class Fraction
 Fraction::Fraction(int numerator, int denominator) {
     if (denominator == 0) {
         throw InvalidFraction();
@@ -84,7 +83,6 @@ Fraction &Fraction::operator=(Fraction &&fraction) {
     this->denominator_ = std::exchange(fraction.denominator_, 1);
     return *this;
 }
-#pragma endregion
 
 Fraction to_fraction(double number) {
     int new_denominator = 1;
@@ -112,7 +110,6 @@ std::ostream &operator<<(std::ostream &ostr, const Fraction &val) {
     return ostr;
 }
 
-#pragma region Implement binary arithmetic operators
 Fraction &operator+=(Fraction &left, const Fraction &right) {
     if (left.get_denominator() == right.get_denominator()) {
         left.set_numerator(left.get_numerator() + right.get_numerator());
@@ -178,4 +175,3 @@ Fraction &operator/=(Fraction &left, const int &right) {
     left.simplify();
     return left;
 }
-#pragma endregion

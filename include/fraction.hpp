@@ -113,7 +113,7 @@ std::istream &operator>>(std::istream &istr, Fraction &val);
 
 std::ostream &operator<<(std::ostream &ostr, const Fraction &val);
 
-#pragma region Binary Arithmetic Operators
+#pragma region Binary arithmetic operators with another fraction
 Fraction &operator+=(Fraction &left, const Fraction &right);
 
 Fraction &operator-=(Fraction &left, const Fraction &right);
@@ -121,14 +121,6 @@ Fraction &operator-=(Fraction &left, const Fraction &right);
 Fraction &operator*=(Fraction &left, const Fraction &right);
 
 Fraction &operator/=(Fraction &left, const Fraction &right);
-
-Fraction &operator+=(Fraction &left, const int &right);
-
-Fraction &operator-=(Fraction &left, const int &right);
-
-Fraction &operator*=(Fraction &left, const int &right);
-
-Fraction &operator/=(Fraction &left, const int &right);
 
 inline Fraction operator+(const Fraction &left, const Fraction &right) {
     Fraction result = left;
@@ -153,6 +145,16 @@ inline Fraction operator/(const Fraction &left, const Fraction &right) {
     result /= right;
     return result;
 }
+#pragma endregion
+
+#pragma region Binary arithmetic operators with a number on the right-hand side
+Fraction &operator+=(Fraction &left, const int &right);
+
+Fraction &operator-=(Fraction &left, const int &right);
+
+Fraction &operator*=(Fraction &left, const int &right);
+
+Fraction &operator/=(Fraction &left, const int &right);
 
 inline Fraction operator+(const Fraction &left, const int &right) {
     Fraction result = left;
@@ -177,7 +179,9 @@ inline Fraction operator/(const Fraction &left, const int &right) {
     result /= right;
     return result;
 }
+#pragma endregion
 
+#pragma region Binary arithmetic operators with a number on the left-hand side
 inline Fraction operator+(const int &left, const Fraction &right) {
     Fraction result(left);
     result += right;
@@ -203,7 +207,7 @@ inline Fraction operator/(const int &left, const Fraction &right) {
 }
 #pragma endregion
 
-#pragma region Spaceship Operator
+#pragma region Spaceship operator
 inline auto operator<=>(const Fraction &left, const Fraction &right) {
     return left.compare(right);
 }
@@ -217,7 +221,7 @@ inline auto operator<=>(const int &left, const Fraction &right) {
 }
 #pragma endregion
 
-#pragma region Comparison Operators
+#pragma region Comparison operators with another fraction
 inline bool operator==(const Fraction &left, const Fraction &right) {
     return left.compare(right) == std::strong_ordering::equal;
 }
@@ -226,6 +230,24 @@ inline bool operator!=(const Fraction &left, const Fraction &right) {
     return !operator==(left, right);
 }
 
+inline bool operator<(const Fraction &left, const Fraction &right) {
+    return left <=> right == std::strong_ordering::less;
+}
+
+inline bool operator<=(const Fraction &left, const Fraction &right) {
+    return left <=> right != std::strong_ordering::greater;
+}
+
+inline bool operator>(const Fraction &left, const Fraction &right) {
+    return left <=> right == std::strong_ordering::greater;
+}
+
+inline bool operator>=(const Fraction &left, const Fraction &right) {
+    return left <=> right != std::strong_ordering::less;
+}
+#pragma endregion
+
+#pragma region Comparison operators with a number on the right-hand side
 inline bool operator==(const Fraction &left, const int &right) {
     return left == Fraction(right);
 }
@@ -234,6 +256,24 @@ inline bool operator!=(const Fraction &left, const int &right) {
     return !operator==(left, right);
 }
 
+inline bool operator<(const Fraction &left, const int &right) {
+    return left <=> right == std::strong_ordering::less;
+}
+
+inline bool operator<=(const Fraction &left, const int &right) {
+    return left <=> right != std::strong_ordering::greater;
+}
+
+inline bool operator>(const Fraction &left, const int &right) {
+    return left <=> right == std::strong_ordering::greater;
+}
+
+inline bool operator>=(const Fraction &left, const int &right) {
+    return left <=> right != std::strong_ordering::less;
+}
+#pragma endregion
+
+#pragma region Comparison operators with a number on the left-hand side
 inline bool operator==(const int &left, const Fraction &right) {
     return Fraction(left) == right;
 }
@@ -242,48 +282,16 @@ inline bool operator!=(const int &left, const Fraction &right) {
     return !operator==(left, right);
 }
 
-inline bool operator<(const Fraction &left, const Fraction &right) {
-    return left <=> right == std::strong_ordering::less;
-}
-
-inline bool operator>(const Fraction &left, const Fraction &right) {
-    return left <=> right == std::strong_ordering::greater;
-}
-
-inline bool operator<=(const Fraction &left, const Fraction &right) {
-    return left <=> right != std::strong_ordering::greater;
-}
-
-inline bool operator>=(const Fraction &left, const Fraction &right) {
-    return left <=> right != std::strong_ordering::less;
-}
-
-inline bool operator<(const Fraction &left, const int &right) {
-    return left <=> right == std::strong_ordering::less;
-}
-
-inline bool operator>(const Fraction &left, const int &right) {
-    return left <=> right == std::strong_ordering::greater;
-}
-
-inline bool operator<=(const Fraction &left, const int &right) {
-    return left <=> right != std::strong_ordering::greater;
-}
-
-inline bool operator>=(const Fraction &left, const int &right) {
-    return left <=> right != std::strong_ordering::less;
-}
-
 inline bool operator<(const int &left, const Fraction &right) {
     return left <=> right == std::strong_ordering::less;
 }
 
-inline bool operator>(const int &left, const Fraction &right) {
-    return left <=> right == std::strong_ordering::greater;
-}
-
 inline bool operator<=(const int &left, const Fraction &right) {
     return left <=> right != std::strong_ordering::greater;
+}
+
+inline bool operator>(const int &left, const Fraction &right) {
+    return left <=> right == std::strong_ordering::greater;
 }
 
 inline bool operator>=(const int &left, const Fraction &right) {
