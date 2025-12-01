@@ -27,7 +27,7 @@ public:
      * @param denominator The denominator of the fraction. Must not be zero.
      * @throws InvalidFraction If the denominator is zero.
      */
-    Fraction(int numerator = 0, int denominator = 1);
+    explicit Fraction(int numerator = 0, int denominator = 1);
 
     /**
      * @brief Copy constructor. Creates a new Fraction as a copy of another.
