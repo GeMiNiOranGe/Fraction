@@ -39,6 +39,16 @@ mingw32-make build-examples
 .\bin\<example-file-name>_example.exe
 ```
 
+## Invariants
+
+`Fraction` upholds these invariants at all times:
+
+1. **Denominator is never zero.**
+2. **Fractions are always reduced** using GCD.
+<!-- 3. **Denominator is always positive,** with sign stored in the numerator. -->
+
+These rules ensure predictable behavior across all operations.
+
 ## Sample code
 ### Binary arithmetic operators
 ```cpp
