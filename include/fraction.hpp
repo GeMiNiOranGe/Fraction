@@ -208,15 +208,24 @@ inline Fraction operator/(const int &left, const Fraction &right) {
 #pragma endregion
 
 #pragma region Spaceship operator
-inline auto operator<=>(const Fraction &left, const Fraction &right) {
+inline std::strong_ordering operator<=>(
+    const Fraction &left,
+    const Fraction &right
+) {
     return left.compare(right);
 }
 
-inline auto operator<=>(const Fraction &left, const int &right) {
+inline std::strong_ordering operator<=>(
+    const Fraction &left,
+    const int &right
+) {
     return left <=> Fraction(right);
 }
 
-inline auto operator<=>(const int &left, const Fraction &right) {
+inline std::strong_ordering operator<=>(
+    const int &left,
+    const Fraction &right
+) {
     return Fraction(left) <=> right;
 }
 #pragma endregion
