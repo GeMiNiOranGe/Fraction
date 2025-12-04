@@ -21,19 +21,19 @@ Fraction::Fraction(Fraction &&fraction) {
 Fraction::~Fraction() {
 }
 
-const int &Fraction::get_numerator() const {
+int Fraction::get_numerator() const {
     return this->numerator_;
 }
 
-const int &Fraction::get_denominator() const {
+int Fraction::get_denominator() const {
     return this->denominator_;
 }
 
-void Fraction::set_numerator(const int &numerator) {
+void Fraction::set_numerator(int numerator) {
     this->numerator_ = numerator;
 }
 
-void Fraction::set_denominator(const int &denominator) {
+void Fraction::set_denominator(int denominator) {
     if (denominator == 0) {
         throw InvalidDenominator();
     }
@@ -149,25 +149,25 @@ Fraction &operator/=(Fraction &left, const Fraction &right) {
     return left;
 }
 
-Fraction &operator+=(Fraction &left, const int &right) {
+Fraction &operator+=(Fraction &left, int right) {
     left.set_numerator(left.get_numerator() + left.get_denominator() * right);
     left.simplify();
     return left;
 }
 
-Fraction &operator-=(Fraction &left, const int &right) {
+Fraction &operator-=(Fraction &left, int right) {
     left.set_numerator(left.get_numerator() - left.get_denominator() * right);
     left.simplify();
     return left;
 }
 
-Fraction &operator*=(Fraction &left, const int &right) {
+Fraction &operator*=(Fraction &left, int right) {
     left.set_numerator(left.get_numerator() * right);
     left.simplify();
     return left;
 }
 
-Fraction &operator/=(Fraction &left, const int &right) {
+Fraction &operator/=(Fraction &left, int right) {
     if (right == 0) {
         throw DivideByZero();
     }
