@@ -6,7 +6,9 @@
 #include <numeric>
 #include <utility>
 
-#include "fraction_exception.hpp"
+#include <matho/fraction_exception.hpp>
+
+namespace matho {
 
 /**
  * @brief Represents a mathematical fraction and provides arithmetic operations.
@@ -301,5 +303,7 @@ inline bool operator>=(int left, const Fraction &right) {
     return left <=> right != std::strong_ordering::less;
 }
 #pragma endregion
+
+}  // namespace matho
 
 #endif // end FRACTION_HPP

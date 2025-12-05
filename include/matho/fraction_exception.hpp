@@ -4,6 +4,8 @@
 
 #include <stdexcept>
 
+namespace matho {
+
 class InvalidDenominator : public std::invalid_argument {
 public:
     InvalidDenominator() : invalid_argument("denominator must not be zero") {}
@@ -18,5 +20,7 @@ class DivideByZero : public std::overflow_error {
 public:
     DivideByZero() : overflow_error("division by zero") {}
 };
+
+}  // namespace matho
 
 #endif // end FRACTION_EXCEPTION_HPP

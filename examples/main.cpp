@@ -1,7 +1,7 @@
-#include "fraction.hpp"
+#include <matho/fraction.hpp>
 
 int main(int argc, char const *argv[]) {
-    Fraction first, second, third(1, 2), fourth(3, 4);
+    matho::Fraction first, second, third(1, 2), fourth(3, 4);
 
     try {
         std::cout << "Please enter the first fraction: ";
@@ -18,11 +18,11 @@ int main(int argc, char const *argv[]) {
     std::cout << "(" << first << ") - (" << second << ") = " << first - second << std::endl;
     std::cout << "(" << first << ") * (" << second << ") = " << first * second << std::endl;
     std::cout << "(" << first << ") / (" << second << ") = ";
-    Fraction quotient;
+    matho::Fraction quotient;
     try {
         quotient = first / second;
         std::cout << quotient << std::endl;
-    } catch (const DivideByZero &e) {
+    } catch (const matho::DivideByZero &e) {
         std::cerr << "Error: " << e.what() << '\n';
     }
     std::cout << std::endl;

@@ -1,4 +1,6 @@
-#include "fraction.hpp"
+#include <matho/fraction.hpp>
+
+namespace matho {
 
 Fraction::Fraction(int numerator, int denominator) {
     if (denominator == 0) {
@@ -175,3 +177,5 @@ Fraction &operator/=(Fraction &left, int right) {
     left.simplify();
     return left;
 }
+
+}  // namespace matho
