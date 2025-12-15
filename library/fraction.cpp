@@ -65,10 +65,6 @@ void Fraction::simplify() {
     }
 }
 
-void Fraction::inverse() {
-    std::swap(this->denominator_, this->numerator_);
-}
-
 double Fraction::to_double() const {
     return static_cast<double>(this->numerator_) / this->denominator_;
 }

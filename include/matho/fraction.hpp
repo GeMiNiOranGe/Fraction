@@ -85,11 +85,6 @@ public:
     void simplify();
 
     /**
-     * @brief Inverts the fraction by swapping numerator and denominator.
-     */
-    void inverse();
-
-    /**
      * @brief Converts the fraction to a double-precision floating-point number.
      *
      * @return The floating-point representation of the fraction.
