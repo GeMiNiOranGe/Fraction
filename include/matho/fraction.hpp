@@ -231,7 +231,10 @@ inline std::strong_ordering operator<=>(const Fraction &left, int right) {
 }
 
 inline std::strong_ordering operator<=>(int left, const Fraction &right) {
-    return right.compare(left);
+    // Fraction::compare(int) compares (Fraction <=> int),
+    // but this operator requires (int <=> Fraction).
+    // Using `0 <=>` explicitly reverses the ordering direction.
+    return 0 <=> right.compare(left);
 }
 #pragma endregion
 
