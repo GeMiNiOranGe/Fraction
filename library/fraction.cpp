@@ -57,6 +57,19 @@ std::strong_ordering Fraction::compare(const Fraction &fraction) const {
     return std::strong_ordering::equal;
 }
 
+std::strong_ordering Fraction::compare(int number) const {
+    int left = numerator_;
+    int right = number * denominator_;
+
+    if (left < right) {
+        return std::strong_ordering::less;
+    }
+    if (left > right) {
+        return std::strong_ordering::greater;
+    }
+    return std::strong_ordering::equal;
+}
+
 void Fraction::simplify() {
     const int GCD_VALUE = std::gcd(this->numerator_, this->denominator_);
     if (GCD_VALUE > 1) {

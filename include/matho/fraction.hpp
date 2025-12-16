@@ -77,6 +77,22 @@ public:
     std::strong_ordering compare(const Fraction &fraction) const;
 
     /**
+     * @brief Compares this fraction with a number.
+     *
+     * The result is one of:
+     *
+     * - std::strong_ordering::less
+     *
+     * - std::strong_ordering::greater
+     *
+     * - std::strong_ordering::equal
+     *
+     * @param number The number to compare with.
+     * @return The result of the comparison.
+     */
+    std::strong_ordering compare(int number) const;
+
+    /**
      * @brief Reduces the fraction to its simplest form.
      *
      * Uses the greatest common divisor (GCD) to divide both numerator
@@ -205,19 +221,17 @@ inline Fraction operator/(int left, const Fraction &right) {
 #pragma endregion
 
 #pragma region Spaceship operator
-inline std::strong_ordering operator<=>(
-    const Fraction &left,
-    const Fraction &right
-) {
+inline
+std::strong_ordering operator<=>(const Fraction &left, const Fraction &right) {
     return left.compare(right);
 }
 
 inline std::strong_ordering operator<=>(const Fraction &left, int right) {
-    return left <=> Fraction(right);
+    return left.compare(right);
 }
 
 inline std::strong_ordering operator<=>(int left, const Fraction &right) {
-    return Fraction(left) <=> right;
+    return right.compare(left);
 }
 #pragma endregion
 
@@ -249,7 +263,7 @@ inline bool operator>=(const Fraction &left, const Fraction &right) {
 
 #pragma region Comparison operators with a number on the right-hand side
 inline bool operator==(const Fraction &left, int right) {
-    return left == Fraction(right);
+    return left.compare(right) == std::strong_ordering::equal;
 }
 
 inline bool operator!=(const Fraction &left, int right) {
@@ -275,7 +289,7 @@ inline bool operator>=(const Fraction &left, int right) {
 
 #pragma region Comparison operators with a number on the left-hand side
 inline bool operator==(int left, const Fraction &right) {
-    return Fraction(left) == right;
+    return right.compare(left) == std::strong_ordering::equal;
 }
 
 inline bool operator!=(int left, const Fraction &right) {
