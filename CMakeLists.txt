@@ -5,6 +5,7 @@ project(Fraction VERSION 0.0.1.0 LANGUAGES CXX)
 include(cmake/utilities.cmake)
 
 option(BUILD_EXAMPLES "Build example programs" OFF)
+option(BUILD_TESTS "Build test programs" OFF)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -50,4 +51,10 @@ target_include_directories(fraction PUBLIC
 # Build examples
 if (BUILD_EXAMPLES)
     add_subdirectory(examples)
+endif()
+
+# Build tests
+if (BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
 endif()
