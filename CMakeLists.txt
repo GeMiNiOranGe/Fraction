@@ -9,6 +9,9 @@ option(BUILD_EXAMPLES "Build example programs" OFF)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# Library variables
+set(FRACTION_ALIAS matho::Fraction)
+
 # Enable `__cplusplus` macro to reflect the actual C++ standard version
 if (MSVC)
     add_compile_options(/Zc:__cplusplus)
