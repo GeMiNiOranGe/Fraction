@@ -5,6 +5,7 @@
 #include <iostream>
 #include <numeric>
 #include <utility>
+#include <sstream>
 
 #include <matho/fraction_exception.hpp>
 
@@ -108,6 +109,14 @@ public:
     double to_double() const;
 
     operator double() const;
+
+    // TODO: Considering support for `parse` and `try_parse`
+
+    /**
+     * @brief Converts the fraction to its string representation.
+     * @return A string representing the fraction in mathematical form.
+     */
+    std::string to_string() const;
 
     Fraction &operator=(const Fraction &) = default;
 

@@ -86,6 +86,16 @@ Fraction::operator double() const {
     return this->to_double();
 }
 
+std::string Fraction::to_string() const {
+    std::stringstream result;
+
+    denominator_ == 1
+        ? result << numerator_
+        : result << numerator_ << '/' << denominator_;
+
+    return result.str();
+}
+
 Fraction &Fraction::operator=(Fraction &&fraction) {
     if (this == &fraction) {
         return *this;
@@ -115,9 +125,7 @@ std::istream &operator>>(std::istream &istr, Fraction &val) {
 }
 
 std::ostream &operator<<(std::ostream &ostr, const Fraction &val) {
-    val.get_denominator() == 1
-        ? ostr << val.get_numerator()
-        : ostr << val.get_numerator() << '/' << val.get_denominator();
+    ostr << val.to_string();
     return ostr;
 }
 
