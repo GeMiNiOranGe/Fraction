@@ -2,248 +2,393 @@
 
 #include <matho/fraction.hpp>
 
-// with other fraction
-TEST_CASE("Fraction + Fraction with same denominator", "[operator+]") {
-    matho::Fraction a{1, 4};
-    matho::Fraction b{2, 4};
+using namespace matho;
 
-    matho::Fraction result = a + b;
+/*
+================================================================================
+fraction - fraction addition testcases
+================================================================================
+*/
 
-    REQUIRE(result == matho::Fraction{3, 4});
+/* 
+Equivalence classes
+- For `fraction`:
+| Class | Description                  |
+| ----- | ---------------------------- |
+| F1    | positive fractions           |
+| F2    | negative fractions           |
+| F3    | fraction equals zero (`0/1`) |
+
+- For `denominator`:
+| Class | Description                               |
+| ----- | ----------------------------------------- |
+| D1    | Two fractions with the same denominator   |
+| D2    | Two fractions with different denominators |
+*/
+
+// Addition
+
+// F1 + F1, D1
+TEST_CASE(
+    "Addition: both are positive, same denominator",
+    "[operator+]"
+) {
+    Fraction a(1, 3);
+    Fraction b(1, 3);
+
+    Fraction result = a + b;
+
+    REQUIRE(result == Fraction(2, 3));
 }
 
-TEST_CASE("Fraction + Fraction with different denominators", "[operator+]") {
-    matho::Fraction a{1, 2};
-    matho::Fraction b{1, 3};
+// F1 + F2, D1
+TEST_CASE(
+    "Addition: positive and negative, same denominator",
+    "[operator+]"
+) {
+    Fraction a(1, 2);
+    Fraction b(-1, 2);
 
-    matho::Fraction result = a + b;
+    Fraction result = a + b;
 
-    REQUIRE(result == matho::Fraction{5, 6});
+    REQUIRE(result == Fraction(0, 1));
 }
 
-TEST_CASE("Fraction + Fraction produces reducible result", "[operator+]") {
-    matho::Fraction a{1, 6};
-    matho::Fraction b{1, 6};
+// F1 + F3, D1: Already covered by F1 + F3, D2 test case
 
-    matho::Fraction result = a + b;
+// F1 + F1, D2
+TEST_CASE(
+    "Addition: both are positive, different denominators",
+    "[operator+]"
+) {
+    Fraction a(1, 2);
+    Fraction b(1, 3);
 
-    REQUIRE(result == matho::Fraction{1, 3});
+    Fraction result = a + b;
+
+    REQUIRE(result == Fraction(5, 6));
 }
 
-TEST_CASE("Fraction + Fraction with negative value", "[operator+]") {
-    matho::Fraction a{3, 4};
-    matho::Fraction b{-1, 4};
+// F1 + F2, D2: Already covered by F1 + F2, D1 test case
 
-    REQUIRE(a + b == matho::Fraction{1, 2});
+// F1 + F3, D2
+TEST_CASE(
+    "Addition: positive and fraction zero, different denominators",
+    "[operator+]"
+) {
+    Fraction a(1, 2);
+    Fraction zero(0, 1);
+
+    Fraction result = a + zero;
+
+    REQUIRE(result == Fraction(1, 2));
 }
 
-TEST_CASE("Fraction + Fraction both negative", "[operator+]") {
-    matho::Fraction a{-1, 3};
-    matho::Fraction b{-1, 6};
+// F2 + F1, D1: Already covered by F1 + F2, D1 test case
 
-    REQUIRE(a + b == matho::Fraction{-1, 2});
+// F2 + F2, D1
+TEST_CASE(
+    "Addition: both are negative, same denominator",
+    "[operator+]"
+) {
+    Fraction a(-1, 3);
+    Fraction b(-1, 3);
+
+    Fraction result = a + b;
+
+    REQUIRE(result == Fraction(-2, 3));
 }
 
-TEST_CASE("Fraction + zero fraction", "[operator+]") {
-    matho::Fraction zero{0, 1};
-    matho::Fraction a{5, 7};
+// F2 + F3, D1: Already covered by F1 + F3, D2 test case
 
-    REQUIRE(a + zero == a);
-    REQUIRE(zero + a == a);
-}
+// F2 + F1, D2: Already covered by F1 + F2, D1 test case
 
-TEST_CASE("Fraction operator+=", "[operator+=]") {
-    matho::Fraction a{1, 4};
-    matho::Fraction b{1, 4};
+// F2 + F2, D2: Already covered by 'F2 + F2, D1' and 'F1 + F1, D2' test cases
+
+// F2 + F3, D2: Already covered by F1 + F3, D2 test case
+
+// F3 + F1, D1: Already covered by F1 + F3, D2 test case
+
+// F3 + F2, D1: Already covered by F1 + F3, D2 test case
+
+// F3 + F3, D1: Already covered by 'F3 + F1, D1' and 'F3 + F2, D1' test cases
+
+// F3 + F1, D2: Already covered by F1 + F3, D2 test case
+
+// F3 + F2, D2: Already covered by F1 + F3, D2 test case
+
+// F3 + F3, D2: Already covered by F3 + F3, D1 test case
+
+// Addition assignment
+TEST_CASE(
+    "Addition assignment: both are positive, same denominator",
+    "[operator+=]"
+) {
+    Fraction a(1, 3);
+    Fraction b(1, 3);
 
     a += b;
 
-    REQUIRE(a == matho::Fraction{1, 2});
+    REQUIRE(a == Fraction(2, 3));
 }
 
-TEST_CASE("Fraction operator+= with different denominators", "[operator+=]") {
-    matho::Fraction a{1, 2};
-    matho::Fraction b{1, 3};
+TEST_CASE(
+    "Addition assignment: positive and negative, same denominator",
+    "[operator+=]"
+) {
+    Fraction a(1, 2);
+    Fraction b(-1, 2);
 
     a += b;
 
-    REQUIRE(a == matho::Fraction{5, 6});
+    REQUIRE(a == Fraction(0, 1));
 }
 
-TEST_CASE("Fraction operator+= with negative fraction", "[operator+=]") {
-    matho::Fraction a{3, 4};
-    matho::Fraction b{-1, 4};
+TEST_CASE(
+    "Addition assignment: both are positive, different denominators",
+    "[operator+=]"
+) {
+    Fraction a{1, 2};
+    Fraction b{1, 3};
 
     a += b;
 
-    REQUIRE(a == matho::Fraction{1, 2});
+    REQUIRE(a == Fraction{5, 6});
 }
 
-TEST_CASE("Chained fraction addition", "[operator+]") {
-    matho::Fraction a{1, 2};
-    matho::Fraction b{1, 4};
-    matho::Fraction c{1, 8};
+TEST_CASE(
+    "Addition assignment: positive and fraction zero, different denominators",
+    "[operator+=]"
+) {
+    Fraction a(1, 2);
+    Fraction zero(0, 1);
 
-    matho::Fraction result = a + b + c;
+    a += zero;
 
-    REQUIRE(result == matho::Fraction{7, 8});
+    REQUIRE(a == Fraction(1, 2));
 }
 
-TEST_CASE("operator+ and operator+= consistency", "[operator+][operator+=]") {
-    matho::Fraction a{2, 3};
-    matho::Fraction b{1, 6};
+TEST_CASE(
+    "Addition assignment: both are negative, same denominator",
+    "[operator+=]"
+) {
+    Fraction a(-1, 3);
+    Fraction b(-1, 3);
 
-    matho::Fraction expected = a + b;
+    a += b;
+
+    REQUIRE(a == Fraction(-2, 3));
+}
+
+// other testcases
+TEST_CASE("Addition: chained fraction addition", "[operator+]") {
+    Fraction a(1, 2);
+    Fraction b(1, 4);
+    Fraction c(1, 8);
+
+    Fraction result = a + b + c;
+
+    REQUIRE(result == Fraction(7, 8));
+}
+
+TEST_CASE(
+    "Consistency of addition and cumulative addition",
+    "[operator+][operator+=]"
+) {
+    Fraction a(2, 3);
+    Fraction b(1, 6);
+
+    Fraction expected = a + b;
 
     a += b;
 
     REQUIRE(a == expected);
 }
 
-// with number
-TEST_CASE("Fraction + number basic", "[operator+][number]") {
-    matho::Fraction a{1, 2};
+/*
+================================================================================
+fraction - number / numbner - fraction addition testcases
+================================================================================
+*/
 
-    matho::Fraction result = a + 1;
+/*
+Equivalence classes
+- For `fraction`:
+| Class | Description                  |
+| ----- | ---------------------------- |
+| F1    | positive fractions           |
+| F2    | negative fractions           |
+| F3    | fraction equals zero (`0/1`) |
 
-    REQUIRE(result == matho::Fraction{3, 2});
+- For `number`:
+| Class | Description |
+| ----- | ----------- |
+| N1    | number > 0  |
+| N2    | number = 0  |
+| N3    | number < 0  |
+*/
+
+// Addition
+
+// F1 + N1
+TEST_CASE("Addition: positive and positive number", "[operator+][number]") {
+    Fraction a(1, 2);
+    int number = 1;
+
+    Fraction expected(3, 2);
+
+    REQUIRE(a + number == expected);
+    REQUIRE(number + a == expected);
 }
 
-TEST_CASE("Fraction + negative number", "[operator+][number]") {
-    matho::Fraction a{3, 4};
+// F1 + N2
+TEST_CASE("Addition: positive and zero number", "[operator+][number]") {
+    Fraction a(1, 2);
+    int number = 0;
 
-    matho::Fraction result = a + (-1);
+    Fraction expected(1, 2);
 
-    REQUIRE(result == matho::Fraction{-1, 4});
+    REQUIRE(a + number == expected);
+    REQUIRE(number + a == expected);
+}
+
+// F1 + N3 
+TEST_CASE("Addition: positive and negative number", "[operator+][number]") {
+    Fraction a(1, 2);
+    int number = -1;
+
+    Fraction expected(-1, 2);
+
+    REQUIRE(a + number == expected);
+    REQUIRE(number + a == expected);
+}
+
+// F2 + N1
+TEST_CASE("Addition: negative and positive number", "[operator+][number]") {
+    Fraction a(-1, 2);
+    int number = 1;
+
+    Fraction expected(1, 2);
+
+    REQUIRE(a + number == expected);
+    REQUIRE(number + a == expected);
+}
+
+// F2 + N2: Already covered by F1 + N2 test case
+
+// F2 + N3: Already covered by F1 + N2 test case
+
+// F3 + N1: Already covered by F1 + N2 test case
+
+// F3 + N2: Already covered by F1 + N2 test case
+
+// F3 + N3: Already covered by F1 + N2 test case
+
+// Addition assignment
+TEST_CASE(
+    "Addition assignment: positive and positive number",
+    "[operator+=][number]"
+) {
+    Fraction a(1, 4);
+    int number = 1;
+
+    a += number;
+
+    REQUIRE(a == Fraction(5, 4));
 }
 
 TEST_CASE(
-    "Fraction + number produces reducible result",
+    "Addition assignment: positive and zero number",
     "[operator+][number]"
 ) {
-    matho::Fraction a{1, 2};
+    Fraction a(1, 2);
+    int number = 0;
 
-    matho::Fraction result = a + 1;
+    a += number;
 
-    REQUIRE(result == matho::Fraction{3, 2});
-}
-
-TEST_CASE("number + Fraction", "[operator+][number]") {
-    matho::Fraction a{1, 3};
-
-    matho::Fraction result = 1 + a;
-
-    REQUIRE(result == matho::Fraction{4, 3});
-}
-
-TEST_CASE("Fraction + zero number", "[operator+][number]") {
-    matho::Fraction a{5, 7};
-
-    REQUIRE(a + 0 == a);
-}
-
-TEST_CASE("Fraction operator+= number", "[operator+=][number]") {
-    matho::Fraction a{1, 4};
-
-    a += 1;
-
-    REQUIRE(a == matho::Fraction{5, 4});
-}
-
-TEST_CASE("Fraction operator+= negative number", "[operator+=][number]") {
-    matho::Fraction a{3, 2};
-
-    a += -1;
-
-    REQUIRE(a == matho::Fraction{1, 2});
+    REQUIRE(a == Fraction(1, 2));
 }
 
 TEST_CASE(
-    "operator+ number and operator+= number consistency",
+    "Addition assignment: positive and negative number",
+    "[operator+=][number]"
+) {
+    Fraction a(3, 2);
+    int number = -1;
+
+    a += number;
+
+    REQUIRE(a == Fraction(1, 2));
+}
+
+TEST_CASE(
+    "Addition assignment: negative and positive number",
+    "[operator+][number]"
+) {
+    Fraction a(-1, 2);
+    int number = 1;
+
+    a += number;
+
+    REQUIRE(a == Fraction(1, 2));
+}
+
+// other testcases
+TEST_CASE(
+    "Addition: chained Fraction and number addition",
+    "[operator+][number]"
+) {
+    Fraction a(1, 2);
+
+    Fraction result = a + 1 + 2;
+
+    REQUIRE(result == Fraction(7, 2));
+}
+
+TEST_CASE(
+    "Consistency of addition and cumulative addition with numbers",
     "[operator+][operator+=][number]"
 ) {
-    matho::Fraction a{2, 3};
+    Fraction a(2, 3);
     int b = 2;
 
-    matho::Fraction expected = a + b;
+    Fraction expected = a + b;
 
     a += b;
 
     REQUIRE(a == expected);
 }
 
-TEST_CASE("Chained Fraction and number addition", "[operator+][number]") {
-    matho::Fraction a{1, 2};
+/*
+================================================================================
+actual test cases
+================================================================================
+*/
 
-    matho::Fraction result = a + 1 + 2;
+// Addition
+TEST_CASE("Addition: result is always normalized", "[operator+]") {
+    Fraction a(1, 6);
+    Fraction b(1, 6);
 
-    REQUIRE(result == matho::Fraction{7, 2});
+    Fraction result = a + b;
+
+    REQUIRE(result == Fraction(1, 3));
 }
 
-TEST_CASE("Negative Fraction + positive number", "[operator+][number]") {
-    matho::Fraction a{-1, 2};
+TEST_CASE("Addition: operator+ does not mutate operands", "[operator+]") {
+    Fraction a(1, 2);
+    Fraction b(1, 3);
 
-    matho::Fraction result = a + 1;
+    Fraction _ = a + b;
 
-    REQUIRE(result == matho::Fraction{1, 2});
+    REQUIRE(a == Fraction(1, 2));
+    REQUIRE(b == Fraction(1, 3));
 }
 
-TEST_CASE("Negative Fraction + negative number", "[operator+][number]") {
-    matho::Fraction a{-1, 2};
+// Addition assignment
+TEST_CASE("Addition assignment: self addition", "[operator+=]") {
+    Fraction a(1, 2);
+    a += a;
 
-    matho::Fraction result = a + (-1);
-
-    REQUIRE(result == matho::Fraction{-3, 2});
-}
-
-TEST_CASE("Positive number + negative Fraction", "[operator+][number]") {
-    matho::Fraction a{-1, 4};
-
-    matho::Fraction result = 1 + a;
-
-    REQUIRE(result == matho::Fraction{3, 4});
-}
-
-TEST_CASE("Negative number + negative Fraction", "[operator+][number]") {
-    matho::Fraction a{-3, 4};
-
-    matho::Fraction result = -1 + a;
-
-    REQUIRE(result == matho::Fraction{-7, 4});
-}
-
-TEST_CASE(
-    "Negative Fraction operator+= positive number",
-    "[operator+=][number]"
-) {
-    matho::Fraction a{-3, 2};
-
-    a += 1;
-
-    REQUIRE(a == matho::Fraction{-1, 2});
-}
-
-TEST_CASE(
-    "Negative Fraction operator+= negative number",
-    "[operator+=][number]"
-) {
-    matho::Fraction a{-3, 2};
-
-    a += -1;
-
-    REQUIRE(a == matho::Fraction{-5, 2});
-}
-
-TEST_CASE(
-    "Negative Fraction operator+ number and operator+= number consistency",
-    "[operator+][operator+=][number]"
-) {
-    matho::Fraction a{-2, 3};
-    int b = -2;
-
-    matho::Fraction expected = a + b;
-
-    a += b;
-
-    REQUIRE(a == expected);
+    REQUIRE(a == Fraction(1, 1));
 }
